@@ -91,7 +91,7 @@ fs.mkdir(app.getPath('home') + '/\.TMgr',function(){
             slashes: true
          }));
 
-         mainWindow.openDevTools();
+         // mainWindow.openDevTools();
          Menu.setApplicationMenu(null);
 
          //RESTORE WINDOW STATE OR INITIALIZE THE STATE TABLE
