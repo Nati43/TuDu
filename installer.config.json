@@ -1,0 +1,10 @@
+{
+  "dest": "out/installers/",
+  "icon": "/home/nati/ElectronProjects/TMgr2/src/Vectors/Icon/256x256.png",
+  "categories": [
+    "Utility"
+  ],
+  "scripts": {
+    "postrm": "cleanup.sh"
+  }
+}

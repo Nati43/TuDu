@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>TMgr</title>
+      <link rel="stylesheet" href="main.css">
+   </head>
+
+   <body onload="taskLoader();">
+
+      <div class="wrapper">
+
+         <div class="nav">
+
+            <div class="menuTogglerNav"></div>
+
+            <div class="logoBox">
+               <!-- <div class="logo"></div> -->
+               <div class="add_icon" for="category" id="addCategoryBtn" onclick="popup()"></div>
+            </div>
+
+            <div class="categories">
+               <ul class="categoryList">
+
+                  <!-- <li class="category">Category 1</li> -->
+
+               </ul>
+            </div>
+
+            <div class="options">
+               <div class="exitBtn Btns" onclick="window.close();" title="Exit"></div>
+               
+               <!-- Rounded switch -->
+               <label class="switch">
+                 <input type="checkbox" id="themeCheckbox" onchange="themeChanger(this);">
+                 <span class="slider round"></span>
+               </label>
+               
+               <div class="dragBtn Btns"></div>
+            </div>
+
+         </div>
+
+         <div class="body">
+
+            <div class="menuTogglerBody"></div>
+
+            <div class="entryContainer">
+               <div class="entry">
+                  <input type="text" class="txtBox" id="addField" onkeypress="addHandler(event, this)"/>
+                  <div class="add_icon"></div>
+               </div>
+            </div>
+
+            <div class="tasks" id="tasks">
+               <!--
+                  <div class="task" value="">
+                     <label class="checkbox-container"><span class="taskContent">Task One</span><input type="checkbox" onchange="checkHandler(this)"><span class="checkmark"></span></label>
+                     <div class="edit_icon" onclick="editHandler(this)"></div>
+                     <div class="delete_icon" onclick="deleteHandler(this)"></div>
+                  </div>
+               -->
+            </div>
+
+         </div>
+
+         <div class="popup">
+            <div class="addCategoryPopup">
+               <div class="addCategoryCaption">Add Category</div>
+               <input type="text" name="name" id="category_input" onkeypress="addCategory(event)">
+               <div class="popupBtns">
+                  <span class="popupBtn" onclick="addCategory(event);">Add</span>
+                  <span class="popupBtn" id="closePopupBtn" onclick="closePopup();">Cancel</span>
+               </div>
+            </div>
+         </div>
+
+      </div>
+
+      <script type="text/javascript" src="driver.js"></script>
+      <script type="text/javascript">
+
+         document.querySelector('.menuTogglerNav').onclick = function(){
+            document.querySelector('.nav').classList.toggle('navOpenNav');
+            document.querySelector('.body').classList.toggle('navOpenBody');
+         }
+         document.querySelector('.menuTogglerBody').onclick = function(){
+            document.querySelector('.nav').classList.toggle('navOpenNav');
+            document.querySelector('.body').classList.toggle('navOpenBody');
+         }
+
+         function popup(){
+            document.querySelector('.popup').classList.add('popupOpen');
+            document.querySelector('#category_input').focus();
+            document.querySelector('.nav').classList.toggle('inactive');
+            document.querySelector('.exitBtn').style.pointerEvents = 'initial';
+            document.querySelector('.switch').style.pointerEvents = 'initial';
+         }
+         function closePopup(){
+            document.querySelector('.popup').classList.remove('popupOpen');
+            document.querySelector('#category_input').value = "";
+            document.querySelector('.nav').classList.toggle('inactive');
+         }
+
+      </script>
+   </body>
+</html>

@@ -1,0 +1,523 @@
+* {
+   margin: 0px;
+   padding: 0px;
+}
+html,
+body {
+  background-color: rgba(0,0,0,.5); 
+}
+body {
+   color: #ffffff;
+   font-family: sans-serif;
+}
+.nav {
+   display: block;
+   min-height: 100vh;
+   width: 0px;
+   background: #2E2E2E;
+   float: left;
+   position: fixed;
+   left: 0px;
+   right: 0px;
+   transition: width .1s;
+   z-index: 10;
+   overflow-x: hidden;
+}
+.body {
+   min-height: 100vh;
+   background: #2E2E2E;
+   display: block;
+   width: 100%;
+   position: fixed;
+   left: 0px;
+   top: 0px;
+   opacity: 1;
+}
+.navOpenNav {
+   width: 100%;
+   box-shadow: 50px 0px 100px 0px rgba(0,0,0,.5);
+   border-right: 1px solid #008f89;
+}
+.navOpenBody {
+   background: #424242;
+   pointer-events: none;
+   opacity: 0;
+}
+.logoBox {
+   display: block;
+   min-height: 70px;
+   text-align: center;
+   position: relative;
+}
+.categories {
+   display: block;
+   height: 70vh;
+   overflow-y: auto;
+}
+.categories::-webkit-scrollbar {
+    width: 3px;
+}
+.categories::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.categories::-webkit-scrollbar-thumb {
+  background-color: #41b9aa;
+  outline: 1px solid #41b9aa;
+}
+.category {
+   display: block;
+   padding: 10px;
+   margin: 5px auto;
+   cursor: pointer;
+   text-align: left;
+   transition: transform .25s;
+   color: rgba(255,255,255,.8);
+   border-left: 2px solid rgba(0,0,0,0);
+   line-height: 25px;
+}
+.category:hover {
+   border-left: 3px solid #41b9aa;
+   color: snow;
+}
+.options {
+   display: block;
+   height: calc(30vh - 72px);
+   display: inline-block;
+   width: calc(100vw - 2px);
+   position: relative;
+}
+.entryContainer {
+   display: block;
+   padding: 25px;
+   text-align: center;
+   height: 40px;
+   margin-bottom: 10px;
+   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
+}
+.tasks {
+   margin: 0px;
+   display: block;
+   padding: 10px auto;
+   text-align: center;
+   overflow: hidden;
+   overflow-y: auto;
+   height: calc(100vh - 130px);
+}
+.tasks::-webkit-scrollbar {
+   width: 2px;
+}
+.tasks::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   background-color: transparent;
+}
+.tasks::-webkit-scrollbar-thumb {
+   background-color: #41b9aa;
+   outline: 1px solid #41b9aa;
+}
+.task {
+   display: block;
+   position: relative;
+   text-align: left;
+   padding: 10px;
+   margin: 5px auto;
+   border-bottom: .5px solid #474747;
+   border-left: 3px solid rgba(0,0,0,0);
+   transition: transform .25s;
+   overflow: hidden;
+}
+.taskComplete {
+   opacity: .5;
+   text-decoration-line: line-through;
+}
+.entry {
+   position: relative;
+}
+label,
+input {
+    display: inline-block;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, .1);
+    background: white;
+}
+label {
+    width: auto;
+    margin-right: 5px;
+    padding-left: 0;
+    white-space: unset;
+}
+.checkbox-container {
+    position: relative;
+
+    margin-right: 20px;
+
+    display: block;
+    cursor: pointer;
+    -webkit-user-select: none;
+      -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.checkbox-container input {
+    position: absolute;
+
+    opacity: 0;
+}
+.checkmark {
+    float: left;
+
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 2px;
+
+    transition: all .15s;
+
+    border: 1px solid #575757;
+
+    box-shadow: 0 3px 2px -1px rgba(0, 0, 0, .3);
+    margin-right: 7px;
+}
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #41b9aa;
+    border-color: #41b9aa;
+}
+.checkmark:after {
+    position: absolute;
+
+    display: block;
+
+    width: 0;
+    height: 0;
+
+    content: '';
+    transition: all .015s;
+
+    opacity: 0;
+}
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+
+    width: 5px;
+    height: 10px;
+
+    -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+
+    opacity: 1;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+}
+.checkbox-container .checkmark:after {
+    top: 3px;
+    left: 7px;
+}
+.txtBox {
+   background: transparent;
+   width: 100%;
+   padding: 10px 0px;
+   padding-left: 10px;
+   color: #ffffff;
+   font-size: 15px;
+   border: 0px;
+   border-bottom: 2px solid rgba(255,255,255,.2);
+   transition: border-color .3s;
+   outline: unset;
+}
+.txtBox:focus {
+   border-bottom: 2px solid #41b9aa;
+   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
+}
+.task:hover {
+   border-left-color: #41b9aa;
+}
+.add_icon,
+.edit_icon,
+.delete_icon {
+   display: inline-block;
+   width: 30px;
+   height: 30px;
+   position: absolute;
+   right: 0px;
+   top: 3px;
+   background-image: url('Vectors/delete_light.svg');
+   background-size: 200% 100%;
+   background-position: center;
+   background-repeat: no-repeat;
+   cursor: pointer;
+}
+.add_icon{
+   z-index: -1;
+   right: -10px;
+   background-image: url('Vectors/add_light.svg');
+   background-size: 200% 100%;
+   background-position: center;
+   background-repeat: no-repeat;
+   cursor: unset;
+}
+.edit_icon {
+   right: 35px;
+   background-image: url('Vectors/edit_light.svg');
+   background-size: 200% 100%;
+   background-position: center;
+   background-repeat: no-repeat;
+   cursor: pointer;
+}
+.editTxtBox {
+   max-width: 75%;
+   position: absolute;
+   top: 0px;
+   max-height: 40%;
+   left: 10px;
+}
+.edit_icon:hover,
+.delete_icon:hover {
+   background-size: 250% 120%;
+   border-radius: 50%;
+   border: 1px dashed #41b9aa;
+}
+.logoBox .add_icon {
+   all: unset;
+   position: absolute;
+   left: 5px;
+   bottom: 15px;
+   width: 40px;
+   height: 40px;
+   background-image: url('Vectors/add_light.svg');
+   background-size: 200% 100%;
+   background-position: center;
+   background-repeat: no-repeat;
+   cursor: pointer;
+}
+.Btns {
+   display: block;
+   width: 15px;
+   height: 15px;
+   float: right;
+   margin: 5px;
+   cursor: pointer;
+   position: absolute;
+   bottom: 0px;
+   right: 0px;
+   border-radius: 50px;
+}
+.Btns:hover {
+   background-color: rgba(100,100,100,.1);
+}
+.exitBtn:hover {
+   background-color: rgba(226, 0, 0, 1);
+}
+.exitBtn {
+   background-color: rgba(226, 0, 0, 0.75);
+}
+.dragBtn {
+   background-image: url('Vectors/drag1.svg');
+   background-size: contain;
+   background-position: center;
+   background-repeat: no-repeat;
+   width: 20px;
+   height: 20px;
+   right: unset;
+   left: 0px;
+   bottom: 0px;
+   -webkit-app-region: drag;
+}
+.menuTogglerNav,
+.menuTogglerBody {
+   transform: rotate(-45deg);
+   display: block;
+   width: 0px;
+   height: 0px;
+   border-style: solid;
+   border-color: transparent #41b9aa #41b9aa transparent;
+   border-width: 15px 15px 15px 15px;
+   position: absolute;
+   left: -15px;
+   top: 20px;
+   z-index: 100;
+   cursor: pointer;
+   box-shadow: 1px 1px 5px 0px rgba(0,0,0,.8);
+}
+.menuTogglerNav {
+   transform: rotate(135deg);
+   position: absolute;
+   left: calc(100vw - 15px);
+}
+.inactive {
+   pointer-events: none;
+}
+.popup {
+   position: fixed;
+   height: 150px;
+   width: 250px;
+   top: 520vh;
+   left: calc(50vw - 145px);
+   background: #333;
+   box-shadow: 0px 0px 10px 1px rgba(0,0,0,.7);
+   padding: 20px;
+   z-index: 20;
+   transition: all .3s;
+}
+.popupOpen {
+   top: calc(50vh - 110px);
+}
+.popup input {
+   background: transparent;
+   width: 100%;
+   padding: 10px 0px;
+   padding-left: 10px;
+   color: #ffffff;
+   font-size: 15px;
+   border: 0px;
+   border-bottom: 2px solid rgba(255,255,255,.2);
+   transition: border-color .3s;
+   outline: unset;
+}
+.popup input:focus {
+   border-bottom: 2px solid #41b9aa;
+   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
+}
+.popup label {
+   display: inline-block;
+   padding: 10px;
+   max-width: 30%;
+}
+.popupBtns {
+   margin: 20px auto;
+   padding: 10px;
+   text-align: center;
+}
+.popupBtn {
+   display: inline-block;
+   padding: 10px;
+   cursor: pointer;
+   width: 70px;
+   text-align: center;
+   transition: all .1s;
+   box-shadow: 1px 2px 4px -2px rgba(0,0,0,.8);
+   background: rgba(80,80,80,.5);
+}
+.popupBtn:hover {
+   box-shadow: 0px 2px 10px -1px rgba(0,0,0,.5);
+   background-color: rgba(255,255,255,.1);
+}
+.active {
+   background: #404040;
+}
+.categoryContent {
+   display: block;
+   max-width: 80%;
+}
+.addCategoryCaption {
+   padding: 10px;
+   text-align: center;
+   font-weight: bold;
+}
+.taskContent {
+    max-width: calc(100% - 70px);
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+
+
+ /* The switch - the box around the slider */
+.switch {
+  position: absolute;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+  left: calc(50% - 15px);
+  bottom: 5px;
+}
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #505050;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 11px;
+  width: 11px;
+  left: 2px;
+  bottom: 2px;
+
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .2s;
+}
+.switch input:checked + .slider {
+  background-color: rgba(0,0,0,.5);
+}
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background-color: #41b9aa;
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+} 
+.Indicator {
+  padding: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  word-spacing: 5px;
+  display: table-cell;
+  height: 50vh;
+  vertical-align: middle;
+  text-align: center;
+  width: 100vh;
+  color: rgba(65, 185, 170, .3);
+  pointer-events: none;
+  user-select: none;
+}
+.IndicatorDone {
+  height: unset;
+  padding: unset;
+  font-size: 25px;
+  color: rgba(82, 179, 82, 0.3);
+}
+.Indicator span {
+  font-size: 72px;
+  display: block;
+  width: 100%;
+}
+/*For Transparent*/
+.activeTransparent {
+   background: rgba(0,0,0,.25);
+}
+.popupTransparent {
+   background: rgba(0,0,0,.3);
+}
+.popupBtnTransparent {
+   background: rgba(80,80,80,.2);
+}
+.navTransparent {
+  background: unset;  
+}
+.bodyTransparent {
+  background: unset;  
+}
+
