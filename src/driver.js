@@ -492,6 +492,7 @@ function loadTasksToCategory() {
             task.appendChild(editIcon);
             task.appendChild(deleteIcon);
 
+
             // tasks.appendChild(task);
             taskList.push(task);
          });
@@ -519,7 +520,7 @@ function loadTasksToCategory() {
                      [].forEach.call(taskList, function(tsk) {
                         if(t == tsk.getAttribute('value')) {
                            tasks.appendChild(tsk);
-                            if(tsk.querySelector('input').checked == false)
+                           if(tsk.querySelector('input').checked == false)
                               allDone = false;
                         }
                      });
@@ -633,41 +634,66 @@ function editHandler(obj){
    var taskID = task.getAttribute('value');
    var label = obj.previousSibling;
    var taskContent = label.querySelector('.taskContent');
-   label.style.opacity = '0';
 
-   var input = document.createElement('INPUT');
-   input.setAttribute('class','txtBox');
-   input.classList.add('editTxtBox');
-   input.value = taskContent.textContent;
-   task.appendChild(input);
+   var initialValue = taskContent.innerHTML;
 
-   input.focus();
+   taskContent.parentElement.nextSibling.style.display = 'none';
+   taskContent.parentElement.nextSibling.nextSibling.style.display = 'none';
+   taskContent.nextSibling.style.display = 'none';
+   taskContent.nextSibling.nextSibling.style.display = 'none';
+   taskContent.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+   }
 
-   input.onblur = function() {
-      if(input.value == label.textContent){
-         task.removeChild(input);
-         label.style.opacity = '1';
+   //Making it contentEditable enables awesome features
+   taskContent.contentEditable = true;
+   taskContent.classList.add('editable');
+   taskContent.focus();
+
+   //Save Changes on blur
+   taskContent.onblur = function() {
+      if(taskContent.innerHTML == initialValue){
+         restore();
       }else{
-         // console.log("NOT THE SAME");
-
-         db.run("UPDATE TASK SET task=? WHERE id=?",input.value, taskID, function(err){
+         db.run("UPDATE TASK SET task=? WHERE id=?",taskContent.innerHTML, taskID, function(err){
             if(err){
                // console.log(err);
             }else{
                // console.log("Task Saved TO DATABASE");
             }
          });
-         taskContent.textContent = input.value;
-         task.removeChild(input);
-         label.style.opacity = '1';
+         restore();
       }
    };
 
-   input.onkeypress = function(event){
+   //Save changes when 'Enter' pressed
+   //Increase and Decrease font size when 'ctrl+./,' keys pressed
+   taskContent.onkeypress = function(event) {
       if(event.key == "Enter"){
-         input.blur();
+         taskContent.blur();
+      }else if(event.ctrlKey == true && event.code == 'Period') {
+         var fontSize = document.queryCommandValue("FontSize");
+         fontSize++;
+         document.execCommand("fontSize", false, fontSize);
+      }else if(event.ctrlKey == true && event.code == "Comma"){
+         var fontSize = document.queryCommandValue("FontSize");
+         fontSize--;
+         document.execCommand("fontSize", false, fontSize);
       }
    };
+
+   //Restore task to its initial state after changes are saved
+   function restore() {
+      taskContent.parentElement.nextSibling.style.display = 'block';
+      taskContent.parentElement.nextSibling.nextSibling.style.display = 'block';
+      taskContent.nextSibling.style.display = 'block';
+      taskContent.nextSibling.nextSibling.style.display = 'block';
+      taskContent.onclick = null;
+      taskContent.contentEditable = false;
+      taskContent.classList.remove('editable');
+   }
+
 }
 
 //Fired when the delete task icon is clicked
@@ -779,3 +805,5 @@ function uiLoader() {
       }
    });
 }
+
+
