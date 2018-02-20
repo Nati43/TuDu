@@ -47,7 +47,8 @@
 
             <div class="entryContainer">
                <div class="entry">
-                  <input type="text" class="txtBox" id="addField" onkeypress="addHandler(event, this)"/>
+                  <!-- <input type="text" class="txtBox" id="addField" onkeypress="addHandler(event, this)"/> -->
+                  <span onkeypress="addHandler(event, this)" onkeyup="addFieldController(event, this);" class="txtBox editable" contenteditable="true" id="addField"></span>
                   <div class="add_icon"></div>
                </div>
             </div>

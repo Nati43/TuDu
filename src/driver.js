@@ -39,7 +39,8 @@ function taskLoader(){
 
          db.get("SELECT category FROM LAST_SELECTED_CATEGORY ORDER BY id DESC LIMIT 1", function(err, row) {
             // selectedCategory = row.category;
-            selectedCategory = row.category;
+            if(row)
+               selectedCategory = row.category;
             uiLoader();
             // proceedLoading();
             // console.log('SELECTED CATEGORY : '+selectedCategory);
@@ -56,10 +57,6 @@ function taskLoader(){
 
          });
 
-         // function proceedLoading() {
-            
-         // }
-   
       }else {
          // console.log("Sorry! No db Found!");
       }
@@ -352,18 +349,42 @@ function addToOrderList(newID) {
 }
 
 
-
+var moved = false;
+//Responsible for restructuring the addField when its
+//overflow changes due to posting deleteing or cutting its content
+function addFieldController(event, addField) {
+   if(event.code == "Delete" || event.code == "Backspace" || event.code == "KeyV" && event.ctrlKey == true || event.code == "KeyX" && event.ctrlKey == true || event.code == "KeyZ" && event.ctrlKey == true){
+      if(!moved && addField.scrollHeight > 35) {
+         addField.style.top = '-10px';
+         moved = true;
+      } else if(moved && addField.scrollHeight <= 35) {
+         addField.style.top = '0px';
+         moved = false;
+      }
+   }
+}
 //Fired when a new task is added to a category
 function addHandler(event, addField){
 
-   if(event.key == "Enter" && addField.value != ""){
-      
-      // console.log("Trying to add to category "+selectedCategory+" task "+addField.value+" ?");
+   if(!moved && addField.scrollHeight > 35) {
+      addField.style.top = '-10px';
+      moved = true;
+   } else if(moved && addField.scrollHeight <= 35) {
+      addField.style.top = '0px';
+      moved = false;
+   }
+
+   if(event.key == "Enter" && addField.value != "") {
+      event.preventDefault();
+
+      console.log("Trying to add to category "+selectedCategory+" task "+addField.value+" ?");
 
       successFlag = false;
 
-      var task = addField.value;
-      addField.value = "";
+      // var task = addField.value;
+      var task = addField.innerHTML;
+      // addField.value = "";
+      addField.innerHTML = "";
       document.querySelector('.entryContainer .add_icon').style.opacity = '1';
       var state = 0;
       var category = selectedCategory;
@@ -401,6 +422,10 @@ function addHandler(event, addField){
             db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
                // console.log("ORDER LIST UPDATED");
                successFlag = true;
+               if(moved){
+                  addField.style.top = '0px';
+                  moved = false;
+               }
                loadTasksToCategory();
                scrollToBottom();
             });
@@ -409,6 +434,14 @@ function addHandler(event, addField){
 
       });
       
+   }else if(event.ctrlKey == true && event.code == 'Period') {
+      var fontSize = document.queryCommandValue("FontSize");
+      fontSize++;
+      document.execCommand("fontSize", false, fontSize);
+   }else if(event.ctrlKey == true && event.code == "Comma"){
+      var fontSize = document.queryCommandValue("FontSize");
+      fontSize--;
+      document.execCommand("fontSize", false, fontSize);
    }
 }
 
@@ -693,7 +726,6 @@ function editHandler(obj){
       taskContent.contentEditable = false;
       taskContent.classList.remove('editable');
    }
-
 }
 
 //Fired when the delete task icon is clicked
@@ -753,7 +785,7 @@ function deleteHandler(obj){
 //Fix for Add Icon overlap
 document.getElementById('addField').oninput = function(){
 
-   if(this.value.length > 0)
+   if(this.textContent.length > 0)
       document.querySelector('.entryContainer .add_icon').style.opacity = '0';
    else
       document.querySelector('.entryContainer .add_icon').style.opacity = '1';
