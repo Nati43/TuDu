@@ -56,6 +56,7 @@ body {
 }
 .categories::-webkit-scrollbar {
     width: 3px;
+   height: 2px;
 }
 .categories::-webkit-scrollbar-track {
     background-color: transparent;
@@ -105,6 +106,7 @@ body {
 }
 .tasks::-webkit-scrollbar {
    width: 2px;
+   height: 2px;
 }
 .tasks::-webkit-scrollbar-track {
    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -352,13 +354,14 @@ label {
 }
 .popup {
    position: fixed;
-   height: 150px;
+   /*height: 150px;*/
    width: 250px;
    top: 520vh;
    left: calc(50vw - 145px);
    background: #333;
    box-shadow: 0px 0px 10px 1px rgba(0,0,0,.7);
    padding: 20px;
+   padding-bottom: 0px;
    z-index: 20;
    transition: all .3s;
 }
@@ -429,12 +432,12 @@ label {
 
  /* The switch - the box around the slider */
 .switch {
-  position: absolute;
-  display: inline-block;
-  width: 30px;
-  height: 15px;
-  left: calc(50% - 15px);
-  bottom: 5px;
+    position: relative;
+    display: block;
+    width: 30px;
+    height: 15px;
+    display: inline-block;
+    margin: 0px 20px;
 }
 /* Hide default HTML checkbox */
 .switch input {display:none;}
@@ -529,7 +532,6 @@ label {
   max-width: unset;
   width: 98%;
   outline: none;
-  border-bottom: 2px solid #41b9aa;
   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
 }
 
@@ -543,4 +545,261 @@ label {
     white-space: pre-line;
     overflow: hidden;
     position: relative;
+}
+
+.tabs {
+    /*border: 1px solid red;*/
+    height: 34px;
+    text-align: right;
+    position: absolute;
+    width: 70%;
+    bottom: 0px;
+    left: 15%;
+    display: inline-block;
+    text-align: center;
+}
+
+.tab {
+    display: inline-block;
+    width: 30%;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer;
+}
+.tab:hover {
+  background: rgba(0,0,0,.3);
+}
+
+
+/*FOR THE NOTES*/
+.notesBody .entryContainer {
+   display: block;
+   padding: 10px 20px;
+   text-align: center;
+   height: 40px;
+   margin-bottom: 10px;
+   box-shadow: unset;
+}
+.notesBody .add_icon {
+  cursor: pointer;
+  z-index: unset;
+}
+.notes {
+   margin: 0px;
+   display: block;
+   padding: 10px 5px 10px 0px;
+   text-align: center;
+   overflow: hidden;
+   overflow-y: auto;
+   height: calc(100vh - 100px);
+}
+.notes::-webkit-scrollbar {
+   width: 2px;
+}
+.notes::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   background-color: transparent;
+}
+.notes::-webkit-scrollbar-thumb {
+   background-color: #41b9aa;
+   outline: 1px solid #41b9aa;
+}
+.noteViewer {
+  display: block;
+  width: 100vw;
+  height: 98vh;
+}
+.menuTogglerNoteViewer {
+    transform: rotate(-45deg);
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-color: transparent #41b9aa #41b9aa transparent;
+    border-width: 10px 10px 15px 15px;
+    position: absolute;
+    left: -15px;
+    top: 5px;
+    z-index: 100;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,.8);
+}
+.noteContent {
+    display: block;
+    width: auto;
+    margin: 30px 0px;
+    outline: none;
+    padding: 0px 15px;
+    overflow-y: auto;
+    height: 90vh;
+    position: relative;
+}
+.noteContent::-webkit-scrollbar {
+   width: 2px;
+   height: 2px;
+}
+.noteContent::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   background-color: transparent;
+}
+.noteContent::-webkit-scrollbar-thumb {
+   background-color: #41b9aa;
+   outline: 1px solid #41b9aa;
+}
+
+.note {
+  display: block;
+  position: relative;
+  text-align: left;
+  padding: 10px;
+  margin: 5px auto;
+  border-bottom: .5px solid #474747;
+  border-left: 3px solid rgba(0,0,0,0);
+  transition: transform .25s;
+  overflow: hidden;
+  cursor: pointer;
+  width: calc(100% - 20px);
+}
+.note:hover {
+  background-color: rgba(0,0,0,.3);
+}
+.noteCaption {
+  max-width: calc(100vw - 45px);
+  display: inline-block;
+  position: relative;
+  top: 2px;
+}
+
+
+.tasksBody {        /*TO BE DELETED*/
+  /*display: none;*/
+   transition: transform .25s;
+}
+.notesBody {        /*TO BE DELETED*/
+  display: none;
+  transition: transform .25s;
+}
+.noteViewer {
+  display: none;
+  transition: transform .25s;
+}
+
+.leftAligned {
+  width: 100%;
+  text-align: left;
+}
+.centerAligned {
+  width: 100%;
+  text-align: center;
+}
+.rightAligned {
+  width: 100%;
+  text-align: right;
+}
+
+
+table {
+  margin: 10px auto;
+  position: relative;
+}
+
+td {
+  padding: 5px;
+  outline: none;
+  position: relative;
+  MIN-WIDTH: 50px;
+  border-bottom: 1px solid #41b9aa;
+  border-right: 1px solid #41b9aa;
+}
+td:first-child {
+  border-left: 1px solid #41b9aa;
+}
+
+tr:first-child td {
+  border-top: 1px solid #41b9aa;
+}
+
+td .delIcon {
+  position: absolute;
+  content: "";
+  display: block;
+  border-style: solid;
+  border-color: transparent transparent transparent red;
+  border-width: 10px 10px 10px 10px;
+  width: 0px;
+  height: 0px;
+  transform: rotate(45deg);
+  z-index: 1;
+  bottom: -10px;
+  right: -10px;
+  cursor: pointer;
+  opacity: 0; 
+}
+
+td:hover .delIcon {
+  opacity: 1;
+}
+
+.noteContent .addRowIcon {
+  position: absolute;
+  content: "";
+  display: block;
+  border-style: solid;
+  border-color: transparent #41b9aa #41b9aa transparent;
+  border-width: 5px 5px 5px 5px;
+  width: 0px;
+  height: 0px;
+  transform: rotate(45deg);
+  z-index: 1;
+  top: -5px;
+  left: 5px;
+  cursor: pointer;
+  opacity: 0;
+}
+.noteContent .addColIcon {
+  position: absolute;
+  content: "";
+  display: block;
+  border-style: solid;
+  border-color: transparent #41b9aa #41b9aa transparent;
+  border-width: 5px 5px 5px 5px;
+  width: 0px;
+  height: 0px;
+  transform: rotate(-45deg);
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0;
+}
+
+table:hover .addRowIcon,
+table:hover .addColIcon {
+  opacity: 1;
+}
+
+.codeBlock {
+    display: block;
+    padding: 20px;
+    width: calc(100% - 40px);
+    border-left: 3px solid #41b9aa;
+    box-shadow: 0px 0px 20px -5px black;
+    overflow: auto;
+}
+
+.codeBlock::-webkit-scrollbar {
+   width: 2px;
+   height: 2px;
+}
+.codeBlock::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   background-color: transparent;
+}
+.codeBlock::-webkit-scrollbar-thumb {
+   background-color: #41b9aa;
+   outline: 1px solid #41b9aa;
+}
+
+
+#addField:empty:before {
+  content: attr(placeholder);
+  opacity: .3;
 }

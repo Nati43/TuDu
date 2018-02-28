@@ -15,7 +15,7 @@ module.exports = {
     icon: path.resolve(__dirname, "/src/Vectors/Icon/256x256.png")
   },
   electronWinstallerConfig: {
-    name: "tmgr"
+    name: "TuDu"
   },
   electronInstallerDebian: {},
   electronInstallerRedhat: {},
@@ -25,6 +25,6 @@ module.exports = {
   },
   windowsStoreConfig: {
     packageName: "",
-    name: "tmgr"
+    name: "TuDu"
   }
 }

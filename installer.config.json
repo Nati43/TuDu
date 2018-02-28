@@ -1,6 +1,6 @@
 {
   "dest": "out/installers/",
-  "icon": "/home/nati/ElectronProjects/TMgr2/src/Vectors/Icon/256x256.png",
+  "icon": "/home/nati/ElectronProjects/TuDu/src/Vectors/Icon/256x256.png",
   "categories": [
     "Utility"
   ],

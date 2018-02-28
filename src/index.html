@@ -2,11 +2,11 @@
 <html>
    <head>
       <meta charset="utf-8">
-      <title>TMgr</title>
+      <title>TuDu</title>
       <link rel="stylesheet" href="main.css">
    </head>
 
-   <body onload="taskLoader();">
+   <body onload="loader();">
 
       <div class="wrapper">
 
@@ -21,20 +21,24 @@
 
             <div class="categories">
                <ul class="categoryList">
-
                   <!-- <li class="category">Category 1</li> -->
-
                </ul>
             </div>
 
             <div class="options">
                <div class="exitBtn Btns" onclick="window.close();" title="Exit"></div>
-               
-               <!-- Rounded switch -->
-               <label class="switch">
-                 <input type="checkbox" id="themeCheckbox" onchange="themeChanger(this);">
-                 <span class="slider round"></span>
-               </label>
+
+               <div class="tabs">
+                  <div class="tab tasks-tab" onclick="tabChanger(this)">Tasks</div>
+
+                  <!-- Rounded switch -->
+                  <label class="switch">
+                    <input type="checkbox" id="themeCheckbox" onchange="themeChanger(this);">
+                    <span class="slider round"></span>
+                  </label>
+
+                  <div class="tab notes-tab" onclick="tabChanger(this)">Notes</div>
+               </div>               
                
                <div class="dragBtn Btns"></div>
             </div>
@@ -43,32 +47,64 @@
 
          <div class="body">
 
-            <div class="menuTogglerBody"></div>
+            <div class="tasksBody">
 
-            <div class="entryContainer">
-               <div class="entry">
-                  <!-- <input type="text" class="txtBox" id="addField" onkeypress="addHandler(event, this)"/> -->
-                  <span onkeypress="addHandler(event, this)" onkeyup="addFieldController(event, this);" class="txtBox editable" contenteditable="true" id="addField"></span>
-                  <div class="add_icon"></div>
+               <div class="menuTogglerBody"></div>
+
+               <div class="entryContainer">
+                  <div class="entry">
+                     <!-- <input type="text" class="txtBox" id="addField" onkeypress="addHandler(event, this)"/> -->
+                     <span onkeypress="addHandler(event, this)" placeholder="Add Task" onkeyup="addFieldController(event, this);" class="txtBox editable" contenteditable="true" id="addField"></span>
+                     <div class="add_icon"></div>
+                  </div>
+               </div>
+
+               <div class="tasks" id="tasks">
+                  <!--
+                     <div class="task" value="">
+                        <label class="checkbox-container"><span class="taskContent">Task One</span><input type="checkbox" onchange="checkHandler(this)"><span class="checkmark"></span></label>
+                        <div class="edit_icon" onclick="editHandler(this)"></div>
+                        <div class="delete_icon" onclick="deleteHandler(this)"></div>
+                     </div>
+                  -->
                </div>
             </div>
 
-            <div class="tasks" id="tasks">
-               <!--
-                  <div class="task" value="">
-                     <label class="checkbox-container"><span class="taskContent">Task One</span><input type="checkbox" onchange="checkHandler(this)"><span class="checkmark"></span></label>
-                     <div class="edit_icon" onclick="editHandler(this)"></div>
-                     <div class="delete_icon" onclick="deleteHandler(this)"></div>
+            <div class="notesBody">
+               
+               <div class="menuTogglerBody"></div>
+
+               <div class="entryContainer">
+                  <div class="entry">
+                     <div class="add_icon" onclick="addNewNote();"></div>
                   </div>
-               -->
+               </div>
+
+               <div class="notes" id="notes">
+                  
+                  <div class="note" value="">
+                     <label><span class="noteCaption">Note One</span></label>
+                     <div class="delete_icon" onclick="deleteNoteHandler(this)"></div>
+                  </div>
+                  
+               </div>
+
+            </div>
+
+            <div class="noteViewer" onclick="focusOnNote();">
+               
+               <div class="menuTogglerNoteViewer"></div>
+
+               <div class="noteContent" contenteditable="true" onkeydown="controller(this, event)"></div>
+
             </div>
 
          </div>
 
          <div class="popup">
             <div class="addCategoryPopup">
-               <div class="addCategoryCaption">Add Category</div>
-               <input type="text" name="name" id="category_input" onkeypress="addCategory(event)">
+               <!-- <div class="addCategoryCaption">Add Category</div> -->
+               <input type="text" name="name" id="category_input" placeholder="Add Category" onkeypress="addCategory(event)">
                <div class="popupBtns">
                   <span class="popupBtn" onclick="addCategory(event);">Add</span>
                   <span class="popupBtn" id="closePopupBtn" onclick="closePopup();">Cancel</span>
@@ -81,21 +117,43 @@
       <script type="text/javascript" src="driver.js"></script>
       <script type="text/javascript">
 
-         document.querySelector('.menuTogglerNav').onclick = function(){
-            document.querySelector('.nav').classList.toggle('navOpenNav');
-            document.querySelector('.body').classList.toggle('navOpenBody');
-         }
-         document.querySelector('.menuTogglerBody').onclick = function(){
-            document.querySelector('.nav').classList.toggle('navOpenNav');
-            document.querySelector('.body').classList.toggle('navOpenBody');
+         var BodyTogglers = document.querySelectorAll('.menuTogglerNav');
+         var NavTogglers = document.querySelectorAll('.menuTogglerBody');
+
+         BodyTogglers.forEach( function(element, index) {
+            element.onclick = function(){
+               document.querySelector('.nav').classList.toggle('navOpenNav');
+               document.querySelector('.body').classList.toggle('navOpenBody');               
+            }
+         });
+
+         NavTogglers.forEach( function(element, index) {
+            element.onclick = function() {
+               document.querySelector('.nav').classList.toggle('navOpenNav');
+               document.querySelector('.body').classList.toggle('navOpenBody');
+            }
+         });
+
+         document.querySelector('.menuTogglerNoteViewer').onclick = function(){
+            saveNote();
          }
 
          function popup(){
+
+            if(!document.querySelector('.nav').classList.contains('navOpenNav')){
+               if(lastCategoryType == 'TASK')
+                  document.querySelector('.tasksBody .menuTogglerBody').click();
+               else if(lastCategoryType == 'NOTE')
+                  document.querySelector('.notesBody .menuTogglerBody').click();
+            }
+
             document.querySelector('.popup').classList.add('popupOpen');
             document.querySelector('#category_input').focus();
             document.querySelector('.nav').classList.toggle('inactive');
             document.querySelector('.exitBtn').style.pointerEvents = 'initial';
             document.querySelector('.switch').style.pointerEvents = 'initial';
+            document.querySelector('.tasks-tab').style.pointerEvents = 'initial';
+            document.querySelector('.notes-tab').style.pointerEvents = 'initial';
          }
          function closePopup(){
             document.querySelector('.popup').classList.remove('popupOpen');
@@ -106,3 +164,4 @@
       </script>
    </body>
 </html>
+
