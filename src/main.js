@@ -20,41 +20,14 @@ fs.mkdir(app.getPath('home') + '/\.TuDu',function(){
       if(err == null){
 
          db.serialize(function() {
-            db.run("CREATE TABLE IF NOT EXISTS CATEGORY ( id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, type TEXT NOT NULL )",function(err) {
-               if(err)
-                  console.log(err);
-               // else
-               //    console.log("CATEGORY TABLE CREATED");
-            });
-            db.run("CREATE TABLE IF NOT EXISTS TASK ( id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT NOT NULL, state INTEGER NOT NULL, category INTEGER, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {
-               if(err)
-                  console.log(err);
-               // else
-               //    console.log("TASK TABLE CREATED");
-            });
+            db.run("CREATE TABLE IF NOT EXISTS CATEGORY ( id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, type TEXT NOT NULL )",function(err) {});
+            db.run("CREATE TABLE IF NOT EXISTS TASK ( id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT NOT NULL, state INTEGER NOT NULL, category INTEGER, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {});
             // db.run("CREATE TABLE IF NOT EXISTS LAST_SELECTED_CATEGORY( id INTEGER PRIMARY KEY AUTOINCREMENT, category INTEGER NOT NULL, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {
-            db.run("CREATE TABLE IF NOT EXISTS LAST_SELECTED_CATEGORY( id INTEGER PRIMARY KEY AUTOINCREMENT, category INTEGER NOT NULL, type TEXT NOT NULL, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {
-               if(err)
-                  console.log(err);
-               // else
-               //    console.log("LAST_SELECTED_CATEGORY TABEL CREATED");
-            });
-            db.run("CREATE TABLE IF NOT EXISTS LAST_ORDER( id INTEGER PRIMARY KEY AUTOINCREMENT, category INTEGER NOT NULL, _order TEXT NOT NULL, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {
-               if(err)
-                  console.log(err);
-               // else
-               //    console.log("LAST_ORDER TABEL CREATED");
-            });
-            db.run("CREATE TABLE IF NOT EXISTS NOTE( id INTEGER PRIMARY KEY AUTOINCREMENT, note TEXT NOT NULL, category INTEGER, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {
-               if(err)
-                  console.log(err);
-               // else
-               //    console.log("LAST_ORDER TABEL CREATED");
-            });
+            db.run("CREATE TABLE IF NOT EXISTS LAST_SELECTED_CATEGORY( id INTEGER PRIMARY KEY AUTOINCREMENT, category INTEGER NOT NULL, type TEXT NOT NULL, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {});
+            db.run("CREATE TABLE IF NOT EXISTS LAST_ORDER( id INTEGER PRIMARY KEY AUTOINCREMENT, category INTEGER NOT NULL, _order TEXT NOT NULL, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {});
+            db.run("CREATE TABLE IF NOT EXISTS NOTE( id INTEGER PRIMARY KEY AUTOINCREMENT, note TEXT NOT NULL, category INTEGER, FOREIGN KEY(category) REFERENCES CATEGORY(id) ON UPDATE CASCADE ON DELETE CASCADE )",function(err) {});
             db.run("CREATE TABLE IF NOT EXISTS LAST_STATE( id INTEGER PRIMARY KEY AUTOINCREMENT, x INTEGER NOT NULL, y INTEGER NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL, ui TEXT, type TEXT, note INTEGER NOT NULL)",function(err) {
-               if(err)
-                  console.log(err);
-               else
+               if(err == null)
                   stateTableCreated = true;
             });
             var count = 0;
@@ -62,7 +35,12 @@ fs.mkdir(app.getPath('home') + '/\.TuDu',function(){
                count = row.count;
                if(count == 0) {
                   db.run("INSERT INTO LAST_SELECTED_CATEGORY(category, type) VALUES(?, ?)", 0, 'TASK', function(error){});
-                  db.run("INSERT INTO LAST_SELECTED_CATEGORY(category, type) VALUES(?, ?)", 0, 'NOTE', function(error){});
+                  db.run("INSERT INTO LAST_SELECTED_CATEGORY(category, type) VALUES(?, ?)", 0, 'NOTE', function(error){
+                     if(error == null)
+                        global.proceed = true;
+                  });
+               }else{
+                  global.proceed = true;
                }
             });
          });
@@ -95,7 +73,7 @@ fs.mkdir(app.getPath('home') + '/\.TuDu',function(){
             slashes: true
          }));
 
-         mainWindow.openDevTools();
+         // mainWindow.openDevTools();
          Menu.setApplicationMenu(null);
 
 

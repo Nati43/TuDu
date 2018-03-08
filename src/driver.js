@@ -35,7 +35,7 @@ function loader(){
    selectedCategory = 0;
    var tHandle = setInterval(function(){
 
-      if(dbFlag) {
+      if(dbFlag && remote.getGlobal('proceed')) {
          clearInterval(tHandle);
 
          console.log("Connected to DB!");
@@ -43,7 +43,7 @@ function loader(){
          db.get('SELECT type, note FROM LAST_STATE WHERE id=1', function(err, row) {
             if(row) {
                lastCategoryType = row.type;
-               if(row.type == 'NOTE' && row.note != 0) {
+               if(lastCategoryType == 'NOTE' && row.note != 0) {
                   openNoteFlag = true;
                   openNote = row.note;
                }
@@ -941,6 +941,7 @@ function tabChanger(obj) {
          document.querySelector('.notes-tab').classList.remove('activeTransparent');
          resetCategoryList();
          document.querySelector('.notesBody').style.display  = "none";
+         document.querySelector('.noteViewer').style.display = 'none';
          document.querySelector('.tasksBody').style.display = 'unset';
          lastCategoryType = 'TASK';
          db.run("UPDATE LAST_STATE SET type=? WHERE id=?", lastCategoryType, 1, function(error){
@@ -1007,6 +1008,7 @@ function saveNote(){
       if(openNote == 0) {
 
          db.serialize(function() {
+            db.run("UPDATE LAST_STATE SET note=? WHERE id=?", 0, 1, function(error){});
             db.run("INSERT INTO NOTE(note, category) VALUES (?,?)", note, selectedCategory, function(err){
                if (err) {
                   // return console.log(err.message);
@@ -1044,6 +1046,7 @@ function saveNote(){
          });
 
       } else {
+         db.run("UPDATE LAST_STATE SET note=? WHERE id=?", 0, 1, function(error){});
          db.run("UPDATE NOTE SET note=? WHERE id=?", note, openNote, function(err){
             if (err) {
                // return console.log(err.message);
@@ -1093,9 +1096,15 @@ function loadNotesToCategory() {
 
             var span = document.createElement('PRE');
             span.setAttribute('class','noteCaption');
-            span.innerHTML = row.note.substring(row.note.indexOf('<b>'), row.note.indexOf('</b>'));
-            if(span.innerHTML == ''){
-               span.innerHTML = (row.note.substring(row.note.indexOf('>')+1, row.note.indexOf('</'))).slice(0, 30);
+            if(row.note.indexOf('<') == -1){
+               span.innerHTML = row.note.substring(0, 30);
+            }else{
+               span.innerHTML = row.note.substring(row.note.indexOf('<b>'), row.note.indexOf('</b>')).slice(0, 30);
+               if(span.innerHTML == '') {
+                  // span.innerHTML = (row.note.substring(row.note.indexOf('>')+1, row.note.indexOf('</'))).slice(0, 30);
+                  span.innerHTML = row.note;
+                  span.innerHTML = span.textContent.substring(0, 30);
+               }
             }
             label.appendChild(span);
 
@@ -1260,6 +1269,9 @@ function controller(obj, event) {
       var fontSize = document.queryCommandValue("FontSize");
       fontSize--;
       document.execCommand("fontSize", false, fontSize);
+   }else if(event.ctrlKey && event.code == 'KeyS'){ //INSERT NUMBERINGS
+      event.preventDefault();
+      saveWhileEditing();
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyC') {  //CENTER ALIGN SELECTED SECTION
       event.preventDefault();
       event.stopPropagation();
@@ -1398,4 +1410,80 @@ function tableController(tbl) {
 function focusOnNote() {
    // var noteContent = document.querySelector('.noteContent');
    // noteContent.focus();
+}
+
+
+//Save Note When CTRL+S is pressed
+function saveWhileEditing() {
+   var noteContainer = document.querySelector('.noteContent');
+   var noteContainerClone = noteContainer.cloneNode(true);
+   var addRowIcons = noteContainerClone.querySelectorAll('.addRowIcon');
+   var addColIcons = noteContainerClone.querySelectorAll('.addColIcon');
+   var delIcons = noteContainerClone.querySelectorAll('.delIcon');
+   [].forEach.call(addRowIcons, function(icon){
+      icon.parentElement.removeChild(icon);
+   });
+   [].forEach.call(addColIcons, function(icon){
+      icon.parentElement.removeChild(icon);
+   });
+   [].forEach.call(delIcons, function(icon){
+      icon.parentElement.removeChild(icon);
+   });
+
+   var note = noteContainerClone.innerHTML;
+   var textContent = noteContainerClone.textContent;
+
+   if(textContent != "") {
+
+      if(openNote == 0) {
+
+         db.serialize(function() {
+            db.run("INSERT INTO NOTE(note, category) VALUES (?,?)", note, selectedCategory, function(err){
+               if (err) {
+                  // return console.log(err.message);
+               } else {
+                  getNoteId();
+               }
+            });
+
+            function getNoteId(){
+               db.get("SELECT * FROM NOTE ORDER BY id DESC LIMIT 1", function(err, row){
+                  if(row){
+                     openNote = row.id;
+                     console.log('NEW NOTE ID : '+openNote);
+                     db.run("UPDATE LAST_STATE SET note=? WHERE id=?", openNote, 1, function(error){
+
+                     });
+                     alterOrderList(openNote);
+                  }
+               });
+            }
+
+            function alterOrderList(openNote){
+               var list = document.getElementById('notes');
+               var order = [];
+               [].forEach.call(list.children, function(element) {
+                  var noteID = element.getAttribute('value');
+                  if(order.indexOf(noteID) == -1)
+                     order.push(noteID);
+               });
+               order.push(openNote);
+               var str = JSON.stringify(order);
+               db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
+                  if (err) {
+                     // return console.log(err.message);
+                  }
+               });
+            }
+
+         });
+
+      } else {
+         db.run("UPDATE NOTE SET note=? WHERE id=?", note, openNote, function(err){
+            if (err) {
+               // return console.log(err.message);
+            }
+         });
+      }
+   }
 }

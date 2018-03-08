@@ -89,11 +89,12 @@ body {
 }
 .entryContainer {
    display: block;
-   padding: 25px;
+   /*padding: 25px;*/
+   padding: 25px 25px 0px 25px;
    text-align: center;
    height: 40px;
    margin-bottom: 10px;
-   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
+   /*box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);*/
 }
 .tasks {
    margin: 0px;
@@ -122,10 +123,13 @@ body {
    text-align: left;
    padding: 10px;
    margin: 5px auto;
-   border-bottom: .5px solid #474747;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
    border-left: 3px solid rgba(0,0,0,0);
    transition: transform .25s;
    overflow: hidden;
+}
+.task:hover {
+   border-left-color: #41b9aa;
 }
 .taskComplete {
    opacity: .5;
@@ -233,9 +237,6 @@ label {
 .txtBox:focus {
    border-bottom: 2px solid #41b9aa;
    box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
-}
-.task:hover {
-   border-left-color: #41b9aa;
 }
 .add_icon,
 .edit_icon,
@@ -653,15 +654,16 @@ label {
   text-align: left;
   padding: 10px;
   margin: 5px auto;
-  border-bottom: .5px solid #474747;
-  border-left: 3px solid rgba(0,0,0,0);
+  border-left: 3px solid rgba(0,0,0,0) !important;
+  border-bottom: 1px solid rgba(255,255,255,.1);
   transition: transform .25s;
   overflow: hidden;
   cursor: pointer;
   width: calc(100% - 20px);
 }
 .note:hover {
-  background-color: rgba(0,0,0,.3);
+  background-color: rgba(0,0,0,.1);
+  border-left-color: #41b9aa !important;
 }
 .noteCaption {
   max-width: calc(100vw - 45px);
