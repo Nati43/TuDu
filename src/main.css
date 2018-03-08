@@ -628,24 +628,30 @@ label {
 .noteContent {
     display: block;
     width: auto;
-    margin: 30px 0px;
+    margin: 30px auto;
+    max-width: 700px;
     outline: none;
     padding: 0px 15px;
     overflow-y: auto;
     height: 90vh;
     position: relative;
 }
+.noteContent:scroll {
+
+}
 .noteContent::-webkit-scrollbar {
    width: 2px;
    height: 2px;
 }
 .noteContent::-webkit-scrollbar-track {
-   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
    background-color: transparent;
 }
 .noteContent::-webkit-scrollbar-thumb {
-   background-color: #41b9aa;
-   outline: 1px solid #41b9aa;
+   /*background-color: #41b9aa;*/
+   /*outline: 1px solid #41b9aa;*/
+   background-color: rgba(99, 99, 99, 0.28);
+   outline: 1px solid rgba(99, 99, 99, 0.28);
 }
 
 .note {

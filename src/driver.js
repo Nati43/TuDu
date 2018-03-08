@@ -1290,6 +1290,13 @@ function controller(obj, event) {
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyN'){ //INSERT NUMBERINGS
       event.preventDefault();
       document.execCommand("insertOrderedList", false);
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ //HIGHLIGHTING CONTENT
+      event.preventDefault();
+      var ht = document.queryCommandValue("backColor");
+      if(ht ==  "rgba(50, 130, 80, 0.7)")
+         document.execCommand("backColor", false, "unset");
+      else
+        document.execCommand("backColor", false, "rgba(50, 130, 80, 0.7)");
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyT'){ //INSERT TABLE
       event.preventDefault();
       var tbl = document.createElement('TABLE');
@@ -1411,7 +1418,6 @@ function focusOnNote() {
    // var noteContent = document.querySelector('.noteContent');
    // noteContent.focus();
 }
-
 
 //Save Note When CTRL+S is pressed
 function saveWhileEditing() {
