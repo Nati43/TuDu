@@ -978,90 +978,6 @@ function tabChanger(obj) {
    }
 }
 
-//Fired when a new note is added to a category
-function addNewNote(){
-   openNote = 0;
-   document.querySelector('.notesBody').style.display = 'none';
-   document.querySelector('.noteViewer').style.display = 'block';
-}
-
-//Saves note when exiting
-function saveNote(){
-   var noteContainer = document.querySelector('.noteContent');
-   var addRowIcons = noteContainer.querySelectorAll('.addRowIcon');
-   var addColIcons = noteContainer.querySelectorAll('.addColIcon');
-   var delIcons = noteContainer.querySelectorAll('.delIcon');
-   [].forEach.call(addRowIcons, function(icon){
-      icon.parentElement.removeChild(icon);
-   });
-   [].forEach.call(addColIcons, function(icon){
-      icon.parentElement.removeChild(icon);
-   });
-   [].forEach.call(delIcons, function(icon){
-      icon.parentElement.removeChild(icon);
-   });
-
-   var note = document.querySelector('.noteContent').innerHTML;
-   var textContent = document.querySelector('.noteContent').textContent;
-   if(textContent != "") {
-
-      if(openNote == 0) {
-
-         db.serialize(function() {
-            db.run("UPDATE LAST_STATE SET note=? WHERE id=?", 0, 1, function(error){});
-            db.run("INSERT INTO NOTE(note, category) VALUES (?,?)", note, selectedCategory, function(err){
-               if (err) {
-                  // return console.log(err.message);
-               } else {
-                  getNoteId();
-               }
-            });
-
-            function getNoteId(){
-               db.get("SELECT * FROM NOTE ORDER BY id DESC LIMIT 1", function(err, row){
-                  if(row){
-                     openNote = row.id;
-                     console.log('NEW NOTE ID : '+openNote);
-                     alterOrderList(openNote);
-                  }
-               });
-            }
-
-            function alterOrderList(openNote){
-               var list = document.getElementById('notes');
-               var order = [];
-               [].forEach.call(list.children, function(element) {
-                  var noteID = element.getAttribute('value');
-                  if(order.indexOf(noteID) == -1)
-                     order.push(noteID);
-               });
-               order.push(openNote);
-               var str = JSON.stringify(order);
-               db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
-                  loadNotesToCategory();
-                  document.querySelector('.noteContent').innerHTML = "";
-               });
-            }
-
-         });
-
-      } else {
-         db.run("UPDATE LAST_STATE SET note=? WHERE id=?", 0, 1, function(error){});
-         db.run("UPDATE NOTE SET note=? WHERE id=?", note, openNote, function(err){
-            if (err) {
-               // return console.log(err.message);
-            } else {
-               loadNotesToCategory();
-               document.querySelector('.noteContent').innerHTML = "";
-            }
-         });
-      }
-   } else {
-      document.querySelector('.notesBody').style.display = 'unset';
-      document.querySelector('.noteViewer').style.display = 'none';
-   }
-}
-
 //To load all the notes in a category
 function loadNotesToCategory() {
 
@@ -1185,23 +1101,11 @@ function loadNotesToCategory() {
    });
 }
 
-//Fired whent the edit task icon is clicked
-function noteViewer(noteID) {
-   openNote = noteID;
-   db.run("UPDATE LAST_STATE SET note=? WHERE id=?", openNote, 1, function(error){});
-   db.get('SELECT note,category FROM NOTE WHERE id=?', noteID, function(err, row) {
-      if(row && row.category == selectedCategory) {
-         document.querySelector('.noteContent').innerHTML = row.note;
-         document.querySelector('.notesBody').style.display = 'none';
-         document.querySelector('.noteViewer').style.display = 'block';
-
-         var tbls = document.querySelector('.noteContent').querySelectorAll('table');
-         tbls.forEach(function(tbl){      
-            tableController(tbl);
-         });
-
-      }
-   });
+//Fired when a new note is added to a category
+function addNewNote(){
+   openNote = 0;
+   document.querySelector('.notesBody').style.display = 'none';
+   document.querySelector('.noteViewer').style.display = 'block';
 }
 
 //Fired when the delete task icon is clicked
@@ -1243,8 +1147,28 @@ function noteDeleter(obj, event){
    });
 }
 
+//Fired whent the edit task icon is clicked
+function noteViewer(noteID) {
+   openNote = noteID;
+   db.run("UPDATE LAST_STATE SET note=? WHERE id=?", openNote, 1, function(error){});
+   db.get('SELECT note,category FROM NOTE WHERE id=?', noteID, function(err, row) {
+      if(row && row.category == selectedCategory) {
+         document.querySelector('.noteContent').innerHTML = row.note;
+         document.querySelector('.notesBody').style.display = 'none';
+         document.querySelector('.noteViewer').style.display = 'block';
+
+         var tbls = document.querySelector('.noteContent').querySelectorAll('table');
+         tbls.forEach(function(tbl){      
+            tableController(tbl);
+         });
+
+      }
+   });
+}
+
 //The Controller for the note editor
 function controller(obj, event) {
+   // console.log(event);
    if(event.code == 'Tab') {  //INSERT TAB
       if(event.ctrlKey && event.shiftKey) {
          event.preventDefault();
@@ -1261,57 +1185,71 @@ function controller(obj, event) {
          range.insertNode(tab);
          range.collapse(false);
       }
-   }else if(event.ctrlKey == true && event.code == 'Period') {
+   }else if(event.ctrlKey == true && event.code == 'Period') { // INCREASE FONT SIZE
       var fontSize = document.queryCommandValue("FontSize");
       fontSize++;
       document.execCommand("fontSize", false, fontSize);
-   }else if(event.ctrlKey == true && event.code == "Comma"){
+   }else if(event.ctrlKey == true && event.code == "Comma"){ // DECREASE FONT SIZE
       var fontSize = document.queryCommandValue("FontSize");
       fontSize--;
       document.execCommand("fontSize", false, fontSize);
-   }else if(event.ctrlKey && event.code == 'KeyS'){ //INSERT NUMBERINGS
+   }else if(event.ctrlKey && event.code == 'KeyS'){ // SAVE NOTE
       event.preventDefault();
       saveWhileEditing();
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyC') {  //CENTER ALIGN SELECTED SECTION
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyC') {  // CENTER ALIGN SELECTED SECTION
       event.preventDefault();
       event.stopPropagation();
       document.execCommand("justifyCenter", false);
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyL'){ //LEFT ALIGN SELECTED SECTION
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyL'){ // LEFT ALIGN SELECTED SECTION
       event.preventDefault();
       event.stopPropagation();
       document.execCommand("justifyLeft", false);
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyR'){ //RIGHT ALIGN SELECTED SECTION
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyR'){ // RIGHT ALIGN SELECTED SECTION
       event.preventDefault();
       event.stopPropagation();
       document.execCommand("justifyRight", false);   
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyB'){ //INSERT BULLETINS
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyJ'){ // JUSTIFY SELECTED SECTION
+      event.preventDefault();
+      event.stopPropagation();
+      document.execCommand("justifyFull", false);   
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyB'){ // INSERT BULLETS
       event.preventDefault();
       document.execCommand("insertUnorderedList", false);
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyN'){ //INSERT NUMBERINGS
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyN'){ // INSERT NUMBERS
       event.preventDefault();
       document.execCommand("insertOrderedList", false);
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ //HIGHLIGHTING CONTENT
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ // HIGHLIGHT SELECTION
       event.preventDefault();
       var ht = document.queryCommandValue("backColor");
       if(ht ==  "rgba(50, 130, 80, 0.7)")
-         document.execCommand("backColor", false, "unset");
+        document.execCommand("backColor", false, "unset");
       else
         document.execCommand("backColor", false, "rgba(50, 130, 80, 0.7)");
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyT'){ //INSERT TABLE
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'Minus'){ // ADD SEPARATOR LINE / HORIZONTAL RULE
       event.preventDefault();
-      var tbl = document.createElement('TABLE');
-      tbl.innerHTML = '<tr><td><span contenteditable="true" id="cell_content">&nbsp;</span></td></tr>';
       var sel = window.getSelection();
       var range = sel.getRangeAt(0);
-      var nl = document.createElement('SPAN');
-      var nl2 = document.createElement('SPAN');
-      nl.innerHTML = '&nbsp;<br>';
-      nl2.innerHTML = '<br>&nbsp;';
+      var nl = document.createElement('BR');
+      var nl2 = document.createElement('BR');
+      var hr = document.createElement('HR');
+      range.insertNode(nl);
+      range.insertNode(hr);
+      range.insertNode(nl2);
+   }else if(event.altKey && event.code == 'ArrowLeft'){ // SAVE AND CLOSE NOTE
+      saveAndClose();      
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyT'){ // INSERT TABLE
+      event.preventDefault();
+      var tbl = document.createElement('TABLE');
+      tbl.innerHTML = '<tr><td><span contenteditable="true" id="cell_content"></span></td></tr>';
+      var sel = window.getSelection();
+      var range = sel.getRangeAt(0);
+      var nl = document.createElement('BR');
+      var nl2 = document.createElement('BR');
       range.insertNode(nl2);
       range.insertNode(tbl);
       range.insertNode(nl);
       tableController(tbl);
-   }else if(event.shiftKey && event.ctrlKey && event.code == 'BracketLeft'){ //INSERT CODE BLOCK
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'BracketLeft'){ // INSERT BLOCKQUOTE
       event.preventDefault();
       var blc = document.createElement('PRE');
       blc.setAttribute('class', 'codeBlock');
@@ -1319,13 +1257,21 @@ function controller(obj, event) {
       blc.innerHTML = '<pre> </pre>';
       var sel = window.getSelection();
       var range = sel.getRangeAt(0);
-      var nl = document.createElement('SPAN');
-      var nl2 = document.createElement('SPAN');
-      nl.innerHTML = '&nbsp;<br>';
-      nl2.innerHTML = '<br>&nbsp;';
+      var nl = document.createElement('BR');
+      var nl2 = document.createElement('BR');
       range.insertNode(nl2);
       range.insertNode(blc);
       range.insertNode(nl);
+   }else if(event.shiftKey && !event.ctrlKey && event.code == 'KeyU'){ // CONVERT TO UPPERCASE
+      event.preventDefault();
+      var sel = window.getSelection();
+      var str = sel.toString().toUpperCase();
+      document.execCommand("insertText", false, str);
+   }else if(event.shiftKey && !event.ctrlKey && event.code == 'KeyL'){ // CONVERT TO LOWERCASE
+      event.preventDefault();
+      var sel = window.getSelection();
+      var str = sel.toString().toLowerCase();
+      document.execCommand("insertText", false, str);
    }
 }
 
@@ -1360,7 +1306,7 @@ function tableController(tbl) {
          var spn = document.createElement('SPAN');
          spn.setAttribute('contenteditable', 'true');
          spn.setAttribute('id', 'cell_content');
-         spn.innerHTML = '&nbsp;';
+         // spn.innerHTML = '&nbsp;';
          cell.appendChild(spn);
       }
       activateCells();
@@ -1376,7 +1322,7 @@ function tableController(tbl) {
          var spn = document.createElement('SPAN');
          spn.setAttribute('contenteditable', 'true');
          spn.setAttribute('id', 'cell_content');
-         spn.innerHTML = '&nbsp;';
+         // spn.innerHTML = '&nbsp;';
          cell.appendChild(spn);
       }
       activateCells();
@@ -1384,10 +1330,10 @@ function tableController(tbl) {
    };
 
    function resetIconsPosition(){
-      rIcon.style.top = 'calc(100% - 1px)';
+      rIcon.style.top = 'calc(100% + 1px)';
       rIcon.style.left = 'calc(50% - 14px)';
       cIcon.style.top = 'calc(50% - 8px)';
-      cIcon.style.left = 'calc(100% - 7px)';
+      cIcon.style.left = 'calc(100% - 6px)';
    }
 
    function activateCells() {
@@ -1429,10 +1375,81 @@ function tableController(tbl) {
    }
 }
 
-//Focus on The Note Content
-function focusOnNote() {
-   // var noteContent = document.querySelector('.noteContent');
-   // noteContent.focus();
+//Saves note when exiting
+function saveAndClose(){
+   var noteContainer = document.querySelector('.noteContent');
+   var addRowIcons = noteContainer.querySelectorAll('.addRowIcon');
+   var addColIcons = noteContainer.querySelectorAll('.addColIcon');
+   var delIcons = noteContainer.querySelectorAll('.delIcon');
+   [].forEach.call(addRowIcons, function(icon){
+      icon.parentElement.removeChild(icon);
+   });
+   [].forEach.call(addColIcons, function(icon){
+      icon.parentElement.removeChild(icon);
+   });
+   [].forEach.call(delIcons, function(icon){
+      icon.parentElement.removeChild(icon);
+   });
+
+   var note = document.querySelector('.noteContent').innerHTML;
+   var textContent = document.querySelector('.noteContent').textContent;
+   if(textContent != "") {
+
+      if(openNote == 0) {
+
+         db.serialize(function() {
+            db.run("UPDATE LAST_STATE SET note=? WHERE id=?", 0, 1, function(error){});
+            db.run("INSERT INTO NOTE(note, category) VALUES (?,?)", note, selectedCategory, function(err){
+               if (err) {
+                  // return console.log(err.message);
+               } else {
+                  getNoteId();
+               }
+            });
+
+            function getNoteId(){
+               db.get("SELECT * FROM NOTE ORDER BY id DESC LIMIT 1", function(err, row){
+                  if(row){
+                     openNote = row.id;
+                     console.log('NEW NOTE ID : '+openNote);
+                     alterOrderList(openNote);
+                  }
+               });
+            }
+
+            function alterOrderList(openNote){
+               var list = document.getElementById('notes');
+               var order = [];
+               [].forEach.call(list.children, function(element) {
+                  var noteID = element.getAttribute('value');
+                  if(order.indexOf(noteID) == -1)
+                     order.push(noteID);
+               });
+               order.push(openNote);
+               var str = JSON.stringify(order);
+               db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
+                  loadNotesToCategory();
+                  document.querySelector('.noteContent').innerHTML = "";
+               });
+            }
+
+         });
+
+      } else {
+         db.run("UPDATE LAST_STATE SET note=? WHERE id=?", 0, 1, function(error){});
+         db.run("UPDATE NOTE SET note=? WHERE id=?", note, openNote, function(err){
+            if (err) {
+               // return console.log(err.message);
+            } else {
+               loadNotesToCategory();
+               document.querySelector('.noteContent').innerHTML = "";
+            }
+         });
+      }
+   } else {
+      document.querySelector('.notesBody').style.display = 'unset';
+      document.querySelector('.noteViewer').style.display = 'none';
+   }
 }
 
 //Save Note When CTRL+S is pressed
@@ -1509,3 +1526,9 @@ function saveWhileEditing() {
       }
    }
 }
+
+//Focus on The Note Content
+// function focusOnNote() {
+   // var noteContent = document.querySelector('.noteContent');
+   // noteContent.focus();
+// }

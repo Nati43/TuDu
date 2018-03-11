@@ -628,13 +628,17 @@ label {
 .noteContent {
     display: block;
     width: auto;
-    margin: 30px auto;
+    /*margin: 30px auto;*/
     max-width: 700px;
     outline: none;
-    padding: 0px 15px;
+    /*padding: 0px 15px;*/
     overflow-y: auto;
-    height: 90vh;
+    /*height: 90vh;*/
     position: relative;
+
+    margin: 10px auto;
+    height: calc(100vh - 20px);
+    padding: 0px 10px;
 }
 .noteContent:scroll {}
 .noteContent::-webkit-scrollbar {
@@ -718,8 +722,20 @@ td {
 }
 td span {
   outline: none;
+  width: 100%;
+  display: block;
 }
-
+/*td span:first-child:empty::before {
+  content: ' ';
+  border: 1px solid red;
+  width: 10px;
+  height: 30px;
+  opacity: .3;
+}
+td span:first-child:empty:focus::before {
+  content: initial;
+  opacity: 1;
+}*/
 td .delIcon {
   position: absolute;
   content: "";
@@ -800,4 +816,11 @@ table:hover .addColIcon {
 #addField:empty:before {
   content: attr(placeholder);
   opacity: .3;
+}
+
+hr {
+  border: 1px solid #41b9aa;
+  border: 0px;
+  height: 1px;
+  background: #41b9aa;
 }
