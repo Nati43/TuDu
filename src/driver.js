@@ -1300,7 +1300,7 @@ function controller(obj, event) {
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyT'){ //INSERT TABLE
       event.preventDefault();
       var tbl = document.createElement('TABLE');
-      tbl.innerHTML = '<tr><td>&nbsp;</td></tr>';
+      tbl.innerHTML = '<tr><td><span contenteditable="true" id="cell_content">&nbsp;</span></td></tr>';
       var sel = window.getSelection();
       var range = sel.getRangeAt(0);
       var nl = document.createElement('SPAN');
@@ -1331,6 +1331,7 @@ function controller(obj, event) {
 
 //Handles all the events of the table
 function tableController(tbl) {
+   tbl.setAttribute('contenteditable','false');
    var rIcon = document.createElement('SPAN');
    rIcon.setAttribute('class','addRowIcon');
    rIcon.setAttribute('contenteditable', 'false');
@@ -1355,7 +1356,12 @@ function tableController(tbl) {
       var row = tbl.insertRow(tbl.rows.length);
       for (var i = 0; i < tbl.rows[0].cells.length; i++) {
          var cell = row.insertCell(i);
-         cell.innerHTML = '&nbsp;';
+         // cell.innerHTML = '&nbsp;';
+         var spn = document.createElement('SPAN');
+         spn.setAttribute('contenteditable', 'true');
+         spn.setAttribute('id', 'cell_content');
+         spn.innerHTML = '&nbsp;';
+         cell.appendChild(spn);
       }
       activateCells();
       resetIconsPosition();
@@ -1366,17 +1372,22 @@ function tableController(tbl) {
       for (var i = 0; i < tbl.rows.length; i++) {
          var row = tbl.rows[i];
          var cell = row.insertCell(row.cells.length);
-         cell.innerHTML = '&nbsp;';
+         // cell.innerHTML = '&nbsp;';
+         var spn = document.createElement('SPAN');
+         spn.setAttribute('contenteditable', 'true');
+         spn.setAttribute('id', 'cell_content');
+         spn.innerHTML = '&nbsp;';
+         cell.appendChild(spn);
       }
       activateCells();
       resetIconsPosition();
    };
 
    function resetIconsPosition(){
-      rIcon.style.top = 'calc(100% - 5px)';
-      rIcon.style.left = 'calc(50% - 5px)';
-      cIcon.style.top = 'calc(50% - 5px)';
-      cIcon.style.left = 'calc(100% - 5px)';
+      rIcon.style.top = 'calc(100% - 1px)';
+      rIcon.style.left = 'calc(50% - 14px)';
+      cIcon.style.top = 'calc(50% - 8px)';
+      cIcon.style.left = 'calc(100% - 7px)';
    }
 
    function activateCells() {
@@ -1387,7 +1398,9 @@ function tableController(tbl) {
 
       [].forEach.call(tbl.rows, function(row, index) {
          [].forEach.call(row.cells,function(cell, index) {
-            cell.setAttribute('contenteditable', 'true');
+            // cell.setAttribute('contenteditable', 'true');
+            cell.setAttribute('contenteditable', 'false');
+
             var delIcon = document.createElement('SPAN');
             delIcon.setAttribute('class','delIcon');
             delIcon.setAttribute('contenteditable', 'false');
@@ -1395,7 +1408,10 @@ function tableController(tbl) {
                row.deleteCell(cell.cellIndex);
                if(row.cells.length == 0)
                   tbl.deleteRow(row.rowIndex);
-               resetIconsPosition();
+               if(tbl.rows.length == 0)
+                  tbl.parentElement.removeChild(tbl);
+               else
+                  resetIconsPosition();
             }
             cell.appendChild(delIcon);
             cell.onkeydown = function(event){

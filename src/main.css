@@ -636,9 +636,7 @@ label {
     height: 90vh;
     position: relative;
 }
-.noteContent:scroll {
-
-}
+.noteContent:scroll {}
 .noteContent::-webkit-scrollbar {
    width: 2px;
    height: 2px;
@@ -709,39 +707,34 @@ label {
 table {
   margin: 10px auto;
   position: relative;
+  border-collapse: collapse;
 }
 
 td {
   padding: 5px;
-  outline: none;
   position: relative;
-  MIN-WIDTH: 50px;
-  border-bottom: 1px solid #41b9aa;
-  border-right: 1px solid #41b9aa;
+  min-width: 50px;
+  border: 1px solid #41b9aa;
 }
-td:first-child {
-  border-left: 1px solid #41b9aa;
-}
-
-tr:first-child td {
-  border-top: 1px solid #41b9aa;
+td span {
+  outline: none;
 }
 
 td .delIcon {
   position: absolute;
   content: "";
   display: block;
-  border-style: solid;
-  border-color: transparent transparent transparent red;
-  border-width: 10px 10px 10px 10px;
-  width: 0px;
-  height: 0px;
-  transform: rotate(45deg);
   z-index: 1;
-  bottom: -10px;
-  right: -10px;
   cursor: pointer;
-  opacity: 0; 
+  opacity: 0;
+
+  width: 10px;
+  height: 10px;
+  bottom: 0px;
+  right: 0px;
+  background: url(Vectors/delete_cell_icon.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 td:hover .delIcon {
@@ -752,31 +745,28 @@ td:hover .delIcon {
   position: absolute;
   content: "";
   display: block;
-  border-style: solid;
-  border-color: transparent #41b9aa #41b9aa transparent;
-  border-width: 5px 5px 5px 5px;
-  width: 0px;
-  height: 0px;
-  transform: rotate(45deg);
   z-index: 1;
   top: -5px;
   left: 5px;
   cursor: pointer;
   opacity: 0;
+
+  width: 30px;
+  height: 15px;
+  background: url(Vectors/add_rc_icon.svg) 0% 0% / contain no-repeat;
 }
 .noteContent .addColIcon {
   position: absolute;
   content: "";
   display: block;
-  border-style: solid;
-  border-color: transparent #41b9aa #41b9aa transparent;
-  border-width: 5px 5px 5px 5px;
-  width: 0px;
-  height: 0px;
-  transform: rotate(-45deg);
+  transform: rotate(-90deg);
   z-index: 1;
   cursor: pointer;
   opacity: 0;
+
+  width: 30px;
+  height: 15px;
+  background: url(Vectors/add_rc_icon.svg) 0% 0% / contain no-repeat;
 }
 
 table:hover .addRowIcon,
