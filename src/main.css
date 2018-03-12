@@ -824,3 +824,7 @@ hr {
   height: 1px;
   background: #41b9aa;
 }
+
+*[style="background-color: rgba(255, 0, 0, 0.7);"] {
+  mix-blend-mode: color-dodge;
+}

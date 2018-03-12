@@ -277,7 +277,6 @@ function categoryDeleter(event, obj) {
       };
 
    });
-
 }
 
 //Fired when the edit category icon is clicked
@@ -1221,10 +1220,10 @@ function controller(obj, event) {
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ // HIGHLIGHT SELECTION
       event.preventDefault();
       var ht = document.queryCommandValue("backColor");
-      if(ht ==  "rgba(50, 130, 80, 0.7)")
+      if(ht ==  "rgba(255, 0, 0, 0.7)")
         document.execCommand("backColor", false, "unset");
       else
-        document.execCommand("backColor", false, "rgba(50, 130, 80, 0.7)");
+        document.execCommand("backColor", false, "rgba(255, 0, 0, 0.7)");
    }else if(event.shiftKey && event.ctrlKey && event.code == 'Minus'){ // ADD SEPARATOR LINE / HORIZONTAL RULE
       event.preventDefault();
       var sel = window.getSelection();
