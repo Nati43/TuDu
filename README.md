@@ -49,4 +49,5 @@ Note                                                           |  Transparent No
   - **Convert to lowercase**  :  shfit  +  L
   - **Save NOTE**             :  ctrl  +  S
   - **Save and Close note**   :  alt  +  ArrowLeft
+  - **Export Note as PDF**    :  ctrl  + shift +  E
 

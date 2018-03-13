@@ -1,5 +1,9 @@
 const electron = require('electron');
 var fs = require('fs');
+
+const ipc = electron.ipcMain;
+const shell = electron.shell;
+
 const url = require('url');
 const path = require('path');
 const sqlite = require('sqlite3').verbose();
@@ -46,6 +50,25 @@ fs.mkdir(app.getPath('home') + '/\.TuDu',function(){
          });
       }
    });
+
+
+   //Print Note as PDF : CALLED FROM RENDERER WHEN CTRL+SHIFT+E IS PRESSED
+   var dimensions = {height:50000000000, width: 100000000000};
+   ipc.on('print-as-pdf', function (event, name) {
+      const pdfPath = app.getPath('home') +'/'+name+'.pdf';
+      const win = BrowserWindow.fromWebContents(event.sender);
+      win.webContents.printToPDF( {
+         pageSize: dimensions,
+         marginsType: 2,
+         printBackground: true
+      }, function (error, data) {
+       if (error) throw error;
+       fs.writeFile(pdfPath, data, function (error) {
+         shell.openItem(pdfPath);
+       })
+     })
+   });
+
 
    app.on('ready', function() {
 

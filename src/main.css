@@ -828,3 +828,24 @@ hr {
 *[style="background-color: rgba(255, 0, 0, 0.7);"] {
   mix-blend-mode: color-dodge;
 }
+
+
+/*FOR PRINTING VIEW*/
+@media print {
+  html,
+  body {
+    background: #2E2E2E !important;
+  }
+  .noteViewer {
+    height: unset;
+  }
+  .noteContent {
+    height: unset;
+  }
+  .body {
+    position: unset;
+  }
+  .popup {
+    display: 
+  }
+}

@@ -1,4 +1,5 @@
-var {remote} = require('electron');  
+var {remote} = require('electron');
+const ipc = require('electron').ipcRenderer;
 const sqlite = require('sqlite3').verbose();
 const Sortable = require('sortablejs');
 var dbFlag = false;
@@ -1271,6 +1272,11 @@ function controller(obj, event) {
       var sel = window.getSelection();
       var str = sel.toString().toLowerCase();
       document.execCommand("insertText", false, str);
+   }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyE'){ // Export as PDF
+      event.preventDefault();
+      var note = obj.textContent;
+      var name = note.substring(0, 10);
+      ipc.send('print-as-pdf', name);
    }
 }
 
