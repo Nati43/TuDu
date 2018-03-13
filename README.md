@@ -6,20 +6,22 @@ with simple and easy to use UI.
 - Tasks in task mode are organized into categories
 - Notes in note mode are also organized into categories
 
-###### Download
+#### Download
 
 - [Linux build](https://github.com/Nati43/TuDu/releases/download/2.0/TuDu_2.0.0_amd64.deb);
 
 
-###### Screenshots
+#### Screenshots
 
-![Screenshot](/src/Vectors/screens/screen_notes.png)
-![Screenshot](/src/Vectors/screens/screen_notes_transparent.png)
-![Screenshot](/src/Vectors/screens/screen_tasks.png)
+Note                                                           |  Transparent Note         |  Tasks
+:-------------------------------------------------------------:|:-------------------------:|:-------------------------:
+![Screenshot](/src/Vectors/screens/screen_notes.png?raw=true)  |  ![Screenshot](/src/Vectors/screens/screen_notes_transparent.png?raw=true) |  ![Screenshot](/src/Vectors/screens/screen_tasks.png?raw=true)
 
 
 
-###### Usage (Shortcuts Keys)
+
+
+#### Usage (Shortcuts Keys)
 
 - for both TASK and NOTE
   
