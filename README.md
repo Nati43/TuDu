@@ -6,7 +6,20 @@ with simple and easy to use UI.
 - Tasks in task mode are organized into categories
 - Notes in note mode are also organized into categories
 
-###### Shortcuts Keys
+###### Download
+
+- [Linux build](https://github.com/Nati43/TuDu/releases/download/2.0/TuDu_2.0.0_amd64.deb);
+
+
+###### Screenshots
+
+![Screenshot](/src/Vectors/screens/screen_notes.png)
+![Screenshot](/src/Vectors/screens/screen_notes_transparent.png)
+![Screenshot](/src/Vectors/screens/screen_tasks.png)
+
+
+
+###### Usage (Shortcuts Keys)
 
 - for both TASK and NOTE
   
