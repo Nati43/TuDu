@@ -8,7 +8,7 @@ with simple and easy to use UI.
 
 #### Download
 
-- [Linux build](https://github.com/Nati43/TuDu/releases/download/2.0/TuDu_2.0.0_amd64.deb);
+- [**Linux build**](https://github.com/Nati43/TuDu/releases/download/2.0/TuDu_2.0.0_amd64.deb)
 
 
 #### Screenshots
@@ -25,28 +25,28 @@ Note                                                           |  Transparent No
 
 - for both TASK and NOTE
   
-  - Bold                  :  ctrl + b
-  - Italic                :  ctrl + i
-  - Underline             :  ctrl + u
-  - Increase font size    :  ctrl + .
-  - Decrease font size    :  ctrl + ,
+  - **Bold**                  :  ctrl + b
+  - **Italic**                :  ctrl + i
+  - **Underline**             :  ctrl + u
+  - **Increase font size**    :  ctrl + .
+  - **Decrease font size**    :  ctrl + ,
   
 - for NOTE
 
-  - Bullets:              :  ctrl + shfit  +  B 
-  - Numbers:              :  ctrl + shfit  +  N
-  - Tables:               :  ctrl + shfit  +  T
-  - Blockquote            :  ctrl + shfit  +  [
-  - Indent                :  ctrl + Tab
-  - Outdent               :  ctrl + shift  +  Tab
-  - Highlight             :  ctrl + shfit  +  H
-  - Justify               :  ctrl + shfit  +  J
-  - Left Align            :  ctrl + shfit  +  L
-  - Center Align          :  ctrl + shfit  +  C
-  - Right Align           :  ctrl + shfit  +  R
-  - Add Separator         :  ctrl + shfit  +  -
-  - Convert to uppercase  :  shfit  +  U
-  - Convert to lowercase  :  shfit  +  L
-  - Save NOTE             :  ctrl  +  S
-  - Save and Close note   :  alt  +  ArrowLeft
+  - **Bullets**              :  ctrl + shfit  +  B 
+  - **Numbers**              :  ctrl + shfit  +  N
+  - **Tables**               :  ctrl + shfit  +  T
+  - **Blockquote**            :  ctrl + shfit  +  [
+  - **Indent**                :  ctrl + Tab
+  - **Outdent**               :  ctrl + shift  +  Tab
+  - **Highlight**             :  ctrl + shfit  +  H
+  - **Justify**               :  ctrl + shfit  +  J
+  - **Left Align**            :  ctrl + shfit  +  L
+  - **Center Align**          :  ctrl + shfit  +  C
+  - **Right Align**           :  ctrl + shfit  +  R
+  - **Add Separator**         :  ctrl + shfit  +  -
+  - **Convert to uppercase**  :  shfit  +  U
+  - **Convert to lowercase**  :  shfit  +  L
+  - **Save NOTE**             :  ctrl  +  S
+  - **Save and Close note**   :  alt  +  ArrowLeft
 
