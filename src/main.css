@@ -829,6 +829,10 @@ hr {
   mix-blend-mode: color-dodge;
 }
 
+*:not(.noteContent) { /*SOLVES THE SELECT ALL BUG*/
+  -webkit-user-select: none;
+}
+
 
 /*FOR PRINTING VIEW*/
 @media print {
