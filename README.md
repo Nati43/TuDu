@@ -8,7 +8,7 @@ with simple and easy to use UI.
 
 #### Download
 
-- [**Linux build**](https://github.com/Nati43/TuDu/releases/download/2.1/TuDu_2.1.1_amd64.deb)
+- [**Linux build**](https://github.com/Nati43/TuDu/releases/download/2.1.1/TuDu_2.1.1_amd64.deb)
 
 
 #### Screenshots
