@@ -23,6 +23,7 @@ var lastCategoryType = 'TASK';
 
 //GLOBAL FLAGS
 var selectedCategory = 0;
+var selectedCategoryName = null;
 var scrollFlag = false;
 var successFlag = false;
 var addedOnEmpty = false;
@@ -58,6 +59,7 @@ function loader(){
             db.get("SELECT category, type FROM LAST_SELECTED_CATEGORY WHERE type=?", lastCategoryType, function(err, row) {
                if(row) {
                   selectedCategory = row.category;
+                  selectedCategoryName = row.category;
                }
                uiLoader();
                if(lastCategoryType == 'TASK'){
@@ -108,6 +110,7 @@ function loadCategories(){
 
       if(selectedCategory == row.id){
          category.classList.add('activeTransparent');
+         selectedCategoryName = row.category;
          // if(uiState == "TRANSPARENT")
          //    category.classList.add('activeTransparent');
          // else
@@ -159,6 +162,7 @@ function categorySelector(event) {
 
       event.srcElement.classList.add(cls);
       selectedCategory = event.srcElement.getAttribute('categoryId');
+      selectedCategoryName = event.srcElement.textContent;
       // db.run("INSERT INTO LAST_SELECTED_CATEGORY(category) VALUES(?)", selectedCategory, function(error){
       //    if(error == null){
       //       console.log('LAST_SELECTED_CATEGORY ALTERED');
@@ -252,8 +256,9 @@ function categoryDeleter(event, obj) {
             });
 
             function selectOtherCategory(){
-               db.get("SELECT id FROM CATEGORY WHERE type=? ORDER BY id ASC LIMIT 1", lastCategoryType, function(err, row){
+               db.get("SELECT id, category FROM CATEGORY WHERE type=? ORDER BY id ASC LIMIT 1", lastCategoryType, function(err, row){
                   selectedCategory = row.id;
+                  selectedCategoryName = row.category;
                   saveNewlySelectedCategory();
                });
             }
@@ -341,8 +346,10 @@ function addCategory(event){
 
          db.get("SELECT COUNT(*) AS num FROM CATEGORY WHERE type=?", lastCategoryType, function(err, row){
             if(err == null){
-               if(row && row.num == 0)
+               if(row && row.num == 0){
                   addedOnEmpty = true;
+                  selectedCategoryName = category;
+               }
                proceed();
             }
          });
@@ -430,79 +437,95 @@ function addHandler(event, addField){
       moved = false;
    }
 
-   // if(event.key == "Enter" && addField.value != "") {
-   if(event.key == "Enter") {
-      event.preventDefault();
+      if(event.key == "Enter") {
+            
+            event.preventDefault();
+            if(addField.innerHTML != "" && addField.innerHTML != "Add Task") {
 
-      if(addField.innerHTML != "" && addField.innerHTML != "Add Task") {
+                  console.log("Trying to add to category "+selectedCategory+" task "+addField.value+" ?");
 
-         console.log("Trying to add to category "+selectedCategory+" task "+addField.value+" ?");
+                  successFlag = false;
 
-         successFlag = false;
+                  // var task = addField.value;
+                  var task = addField.innerHTML;
+                  // addField.value = "";
+                  addField.innerHTML = "";
+                  document.querySelector('.entryContainer .add_icon').style.opacity = '1';
+                  var state = 0;
+                  var category = selectedCategory;
+                  db.serialize(function(){
 
-         // var task = addField.value;
-         var task = addField.innerHTML;
-         // addField.value = "";
-         addField.innerHTML = "";
-         document.querySelector('.entryContainer .add_icon').style.opacity = '1';
-         var state = 0;
-         var category = selectedCategory;
-         db.serialize(function(){
+                        db.run("INSERT INTO TASK(task, state, category) VALUES (?,?,?)",task, state, category,function(err){
+                              if (err) {
+                              // return console.log(err.message);
+                              }
+                              // console.log("INSERTED TASK "+task+" INTO CATEGORY "+category);
+                              getTaskId();
+                        });
 
-            db.run("INSERT INTO TASK(task, state, category) VALUES (?,?,?)",task, state, category,function(err){
-               if (err) {
-                  // return console.log(err.message);
-               }
-               // console.log("INSERTED TASK "+task+" INTO CATEGORY "+category);
-               getTaskId();
-            });
+                        function getTaskId(){
+                              var newID;
+                              db.get("SELECT * FROM TASK ORDER BY id DESC LIMIT 1", function(err, row){
+                              if(row)
+                                    newID = row.id;
+                              alterOrderList(newID);
+                              });
+                        }
 
-            function getTaskId(){
-               var newID;
-               db.get("SELECT * FROM TASK ORDER BY id DESC LIMIT 1", function(err, row){
-                  if(row)
-                     newID = row.id;
-                  alterOrderList(newID);
-               });
+                        function alterOrderList(newID){
+                              var list = document.getElementById('tasks');
+                              var order = [];
+                              [].forEach.call(list.children, function(element) {
+                              var taskID = element.getAttribute('value');
+                              if(order.indexOf(taskID) == -1)
+                                    order.push(taskID);
+                              });
+                              order.push(newID);
+                              var str = JSON.stringify(order);
+                              // console.log("ORDER AFTER ADDING"+str);
+                              // console.log(selectedCategory);
+                              db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
+                              // console.log("ORDER LIST UPDATED");
+                              successFlag = true;
+                              if(moved){
+                                    addField.style.top = '0px';
+                                    moved = false;
+                              }
+                              loadTasksToCategory();
+                              scrollToBottom();
+                              });
+                              
+                        }
+
+                  });
             }
-
-            function alterOrderList(newID){
-               var list = document.getElementById('tasks');
-               var order = [];
-               [].forEach.call(list.children, function(element) {
-                  var taskID = element.getAttribute('value');
-                  if(order.indexOf(taskID) == -1)
-                     order.push(taskID);
-               });
-               order.push(newID);
-               var str = JSON.stringify(order);
-               // console.log("ORDER AFTER ADDING"+str);
-               // console.log(selectedCategory);
-               db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
-                  // console.log("ORDER LIST UPDATED");
-                  successFlag = true;
-                  if(moved){
-                     addField.style.top = '0px';
-                     moved = false;
-                  }
-                  loadTasksToCategory();
-                  scrollToBottom();
-               });
-               
-            }
-
-         });
+      }else if(event.ctrlKey == true && event.code == 'Period') { // INCREASE FONT SIZE
+            var fontSize = document.queryCommandValue("FontSize");
+            fontSize++;
+            document.execCommand("fontSize", false, fontSize);
+      }else if(event.ctrlKey == true && event.code == "Comma"){ // DECREASE FONT SIZE
+            var fontSize = document.queryCommandValue("FontSize");
+            fontSize--;
+            document.execCommand("fontSize", false, fontSize);
+      }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ // HIGHLIGHT SELECTION
+            event.preventDefault();
+            var ht = document.queryCommandValue("backColor");
+            if(ht ==  "rgba(255, 0, 0, 0.7)")
+                  document.execCommand("backColor", false, "unset");
+            else
+                  document.execCommand("backColor", false, "rgba(255, 0, 0, 0.7)");
+      }else if(!event.shiftKey && event.ctrlKey && event.code == 'KeyH') { // HIGHLIGHT ( TEXT COLOR )
+            event.preventDefault();
+            var ht = document.queryCommandValue("foreColor");
+            if(ht ==  "rgb(255, 255, 255)")
+                  document.execCommand("foreColor", false, "#ff4242");
+            else
+                  document.execCommand("foreColor", false, "white");
+      }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyE'){ // Export as PDF
+            event.preventDefault();
+            var name = selectedCategoryName;
+            ipc.send('print-as-pdf', name);
       }
-      
-   }else if(event.ctrlKey == true && event.code == 'Period') {
-      var fontSize = document.queryCommandValue("FontSize");
-      fontSize++;
-      document.execCommand("fontSize", false, fontSize);
-   }else if(event.ctrlKey == true && event.code == "Comma"){
-      var fontSize = document.queryCommandValue("FontSize");
-      fontSize--;
-      document.execCommand("fontSize", false, fontSize);
-   }
 }
 
 //Scroll to bottom when new task is added
@@ -723,7 +746,6 @@ function checkHandler(checkbox){
 
 //Fired whent the edit task icon is clicked
 function editHandler(obj){
-
    var task = obj.parentElement;
    var taskID = task.getAttribute('value');
    var label = obj.previousSibling;
@@ -763,17 +785,35 @@ function editHandler(obj){
 
    //Save changes when 'Enter' pressed
    //Increase and Decrease font size when 'ctrl+./,' keys pressed
-   taskContent.onkeypress = function(event) {
+   taskContent.onkeydown = function(event) {
       if(event.key == "Enter"){
          taskContent.blur();
-      }else if(event.ctrlKey == true && event.code == 'Period') {
+      }else if(event.ctrlKey && event.code == 'Period') { // INCREASE FONT SIZE
          var fontSize = document.queryCommandValue("FontSize");
          fontSize++;
          document.execCommand("fontSize", false, fontSize);
-      }else if(event.ctrlKey == true && event.code == "Comma"){
+      }else if(event.ctrlKey && event.code == "Comma"){ // DECREASE FONT SIZE
          var fontSize = document.queryCommandValue("FontSize");
          fontSize--;
          document.execCommand("fontSize", false, fontSize);
+      }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ // HIGHLIGHT SELECTION
+            event.preventDefault();
+            var ht = document.queryCommandValue("backColor");
+            if(ht ==  "rgba(255, 0, 0, 0.7)")
+                  document.execCommand("backColor", false, "unset");
+            else
+                  document.execCommand("backColor", false, "rgba(255, 0, 0, 0.7)");
+      }else if(!event.shiftKey && event.ctrlKey && event.code == 'KeyH') { // HIGHLIGHT ( TEXT COLOR )
+            event.preventDefault();
+            var ht = document.queryCommandValue("foreColor");
+            if(ht ==  "rgb(255, 255, 255)")
+                  document.execCommand("foreColor", false, "#ff4242");
+            else
+                  document.execCommand("foreColor", false, "white");
+      }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyE'){ // Export as PDF
+            event.preventDefault();
+            var name = selectedCategoryName;
+            ipc.send('print-as-pdf', name);
       }
    };
 
@@ -1147,7 +1187,7 @@ function noteDeleter(obj, event){
    });
 }
 
-//Fired whent the edit task icon is clicked
+//Fired when a note is clicked
 function noteViewer(noteID) {
    openNote = noteID;
    db.run("UPDATE LAST_STATE SET note=? WHERE id=?", openNote, 1, function(error){});
@@ -1193,7 +1233,7 @@ function controller(obj, event) {
       var fontSize = document.queryCommandValue("FontSize");
       fontSize--;
       document.execCommand("fontSize", false, fontSize);
-   }else if(event.ctrlKey && event.code == 'KeyS'){ // SAVE NOTE
+   }else if(!event.shiftKey && event.ctrlKey && event.code == 'KeyS'){ // SAVE NOTE
       event.preventDefault();
       saveWhileEditing();
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyC') {  // CENTER ALIGN SELECTED SECTION
@@ -1225,6 +1265,13 @@ function controller(obj, event) {
         document.execCommand("backColor", false, "unset");
       else
         document.execCommand("backColor", false, "rgba(255, 0, 0, 0.7)");
+   }else if(!event.shiftKey && event.ctrlKey && event.code == 'KeyH') { // HIGHLIGHT ( TEXT COLOR )
+      event.preventDefault();
+      var ht = document.queryCommandValue("foreColor");
+      if(ht ==  "rgb(255, 255, 255)")
+            document.execCommand("foreColor", false, "#ff4242");
+      else
+            document.execCommand("foreColor", false, "white");
    }else if(event.shiftKey && event.ctrlKey && event.code == 'Minus'){ // ADD SEPARATOR LINE / HORIZONTAL RULE
       event.preventDefault();
       var sel = window.getSelection();
@@ -1277,6 +1324,12 @@ function controller(obj, event) {
       var note = obj.textContent;
       var name = note.substring(0, 10);
       ipc.send('print-as-pdf', name);
+   }else if(event.shiftKey && !event.ctrlKey && event.code == "KeyS") { // Subscript
+      event.preventDefault();
+      document.execCommand("subscript", false, str);
+   }else if(event.shiftKey && event.ctrlKey && event.code == "KeyS") { // Superscript
+      event.preventDefault();
+      document.execCommand("superscript", false, str);
    }
 }
 

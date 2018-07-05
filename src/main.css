@@ -1,444 +1,454 @@
 * {
-   margin: 0px;
-   padding: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 html,
 body {
   background-color: rgba(0,0,0,.5); 
 }
 body {
-   color: #ffffff;
-   font-family: sans-serif;
+  color: #ffffff;
+  font-family: sans-serif;
 }
 .nav {
-   display: block;
-   min-height: 100vh;
-   width: 0px;
-   background: #2E2E2E;
-   float: left;
-   position: fixed;
-   left: 0px;
-   right: 0px;
-   transition: width .1s;
-   z-index: 10;
-   overflow-x: hidden;
+  min-height: 100vh;
+  width: 0px;
+  background: #2E2E2E;
+  float: left;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  transition: width .1s;
+  z-index: 10;
+  overflow-x: hidden;
+
+  max-width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
 }
 .body {
-   min-height: 100vh;
-   background: #2E2E2E;
-   display: block;
-   width: 100%;
-   position: fixed;
-   left: 0px;
-   top: 0px;
-   opacity: 1;
+  min-height: 100vh;
+  background: #2E2E2E;
+  display: block;
+  width: 100%;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  opacity: 1;
 }
 .navOpenNav {
-   width: 100%;
-   box-shadow: 50px 0px 100px 0px rgba(0,0,0,.5);
-   border-right: 1px solid #008f89;
+  width: 100%;
+  box-shadow: 50px 0px 100px 0px rgba(0,0,0,.5);
+  border-right: 1px solid #008f89;
 }
 .navOpenBody {
-   background: #424242;
-   pointer-events: none;
-   opacity: 0;
+  background: #424242;
+  pointer-events: none;
+  opacity: 0;
 }
 .logoBox {
-   display: block;
-   min-height: 70px;
-   text-align: center;
-   position: relative;
+  display: block;
+  min-height: 70px;
+  text-align: center;
+  position: relative;
+
+  flex: 0 1 auto;
 }
 .categories {
-   display: block;
-   height: 70vh;
-   overflow-y: auto;
+  display: block;
+  height: 70vh;
+  overflow-y: auto;
+
+  flex: 1 1 auto;
+  height: 100px;
 }
 .categories::-webkit-scrollbar {
-    width: 3px;
-   height: 2px;
+  width: 1px;
+  height: 1px;
 }
 .categories::-webkit-scrollbar-track {
-    background-color: transparent;
+  background-color: transparent;
 }
 .categories::-webkit-scrollbar-thumb {
   background-color: #41b9aa;
   outline: 1px solid #41b9aa;
 }
 .category {
-   display: block;
-   padding: 10px;
-   margin: 5px auto;
-   cursor: pointer;
-   text-align: left;
-   transition: transform .25s;
-   color: rgba(255,255,255,.8);
-   border-left: 2px solid rgba(0,0,0,0);
-   line-height: 25px;
+  display: block;
+  padding: 10px;
+  margin: 5px auto;
+  cursor: pointer;
+  text-align: left;
+  transition: transform .25s;
+  color: rgba(255,255,255,.8);
+  border-left: 2px solid rgba(0,0,0,0);
+  line-height: 25px;
 }
 .category:hover {
-   border-left: 3px solid #41b9aa;
-   color: snow;
+  border-left: 3px solid #41b9aa;
+  color: snow;
 }
 .options {
-   display: block;
-   height: calc(30vh - 72px);
-   display: inline-block;
-   width: calc(100vw - 2px);
-   position: relative;
+  display: block;
+  height: calc(30vh - 72px);
+  display: inline-block;
+  width: calc(100vw - 2px);
+  position: relative;
+
+  flex: 0 1 40px;
 }
 .entryContainer {
-   display: block;
-   /*padding: 25px;*/
-   padding: 25px 25px 0px 25px;
-   text-align: center;
-   height: 40px;
-   margin-bottom: 10px;
-   /*box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);*/
+  display: block;
+  padding: 25px 25px 0px 25px;
+  text-align: center;
+  height: 40px;
+  margin-bottom: 10px;
 }
 .tasks {
-   margin: 0px;
-   display: block;
-   padding: 10px 5px 10px 0px;
-   text-align: center;
-   overflow: hidden;
-   overflow-y: auto;
-   height: calc(100vh - 130px);
+  margin: 0px;
+  display: block;
+  padding: 10px 5px 10px 0px;
+  text-align: center;
+  overflow: hidden;
+  overflow-y: auto;
+  height: calc(100vh - 130px);
 }
 .tasks::-webkit-scrollbar {
-   width: 2px;
-   height: 2px;
+  width: 1px;
+  height: 1px;
 }
 .tasks::-webkit-scrollbar-track {
-   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-   background-color: transparent;
+box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: transparent;
 }
 .tasks::-webkit-scrollbar-thumb {
-   background-color: #41b9aa;
-   outline: 1px solid #41b9aa;
+  background-color: #41b9aa;
+  outline: 1px solid #41b9aa;
 }
 .task {
-   display: block;
-   position: relative;
-   text-align: left;
-   padding: 10px;
-   margin: 5px auto;
-   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-   border-left: 3px solid rgba(0,0,0,0);
-   transition: transform .25s;
-   overflow: hidden;
+  display: block;
+  position: relative;
+  text-align: left;
+  padding: 10px;
+  margin: 5px auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid rgba(0,0,0,0);
+  transition: transform .25s;
+  overflow: hidden;
 }
 .task:hover {
-   border-left-color: #41b9aa;
+  border-left-color: #41b9aa;
 }
 .taskComplete {
-   opacity: .5;
-   text-decoration-line: line-through;
+  opacity: .5;
+  text-decoration-line: line-through;
 }
 .entry {
-   position: relative;
+  position: relative;
 }
 label,
 input {
-    display: inline-block;
+  display: inline-block;
 }
 input {
-    width: 100%;
-    padding: 10px;
-    border: 0;
-    border-bottom: 2px solid rgba(0, 0, 0, .1);
-    background: white;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-bottom: 2px solid rgba(0, 0, 0, .1);
+  background: white;
 }
 label {
-    width: auto;
-    margin-right: 5px;
-    padding-left: 0;
-    white-space: unset;
+  width: auto;
+  margin-right: 5px;
+  padding-left: 0;
+  white-space: unset;
 }
 .checkbox-container {
-    position: relative;
+  position: relative;
 
-    margin-right: 20px;
+  margin-right: 20px;
 
-    display: block;
-    cursor: pointer;
-    -webkit-user-select: none;
-      -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+    -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .checkbox-container input {
-    position: absolute;
+  position: absolute;
 
-    opacity: 0;
+  opacity: 0;
 }
 .checkmark {
-    float: left;
+  float: left;
 
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-    border-radius: 2px;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border-radius: 2px;
 
-    transition: all .15s;
+  transition: all .15s;
 
-    border: 1px solid #575757;
+  border: 1px solid #575757;
 
-    box-shadow: 0 3px 2px -1px rgba(0, 0, 0, .3);
-    margin-right: 7px;
+  box-shadow: 0 3px 2px -1px rgba(0, 0, 0, .3);
+  margin-right: 7px;
 }
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #41b9aa;
-    border-color: #41b9aa;
+  background-color: #41b9aa;
+  border-color: #41b9aa;
 }
 .checkmark:after {
-    position: absolute;
+  position: absolute;
 
-    display: block;
+  display: block;
 
-    width: 0;
-    height: 0;
+  width: 0;
+  height: 0;
 
-    content: '';
-    transition: all .015s;
+  content: '';
+  transition: all .015s;
 
-    opacity: 0;
+  opacity: 0;
 }
 .checkbox-container input:checked ~ .checkmark:after {
-    display: block;
+  display: block;
 
-    width: 5px;
-    height: 10px;
+  width: 5px;
+  height: 10px;
 
-    -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
 
-    opacity: 1;
-    border: solid white;
-    border-width: 0 3px 3px 0;
+  opacity: 1;
+  border: solid white;
+  border-width: 0 3px 3px 0;
 }
 .checkbox-container .checkmark:after {
-    top: 3px;
-    left: 7px;
+  top: 3px;
+  left: 7px;
 }
 .txtBox {
-   background: transparent;
-   width: 100%;
-   padding: 10px 0px;
-   padding-left: 10px;
-   color: #ffffff;
-   font-size: 15px;
-   border: 0px;
-   border-bottom: 2px solid rgba(255,255,255,.2);
-   transition: border-color .3s;
-   outline: unset;
+  background: transparent;
+  width: 100%;
+  padding: 10px 0px;
+  padding-left: 10px;
+  color: #ffffff;
+  font-size: 15px;
+  border: 0px;
+  border-bottom: 2px solid rgba(255,255,255,.2);
+  transition: border-color .3s;
+  outline: unset;
 }
 .txtBox:focus {
-   border-bottom: 2px solid #41b9aa;
-   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
+  border-bottom: 2px solid #41b9aa;
+  box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
 }
 .add_icon,
 .edit_icon,
 .delete_icon {
-   display: inline-block;
-   width: 30px;
-   height: 30px;
-   position: absolute;
-   right: 0px;
-   top: 3px;
-   background-image: url('Vectors/delete_light.svg');
-   background-size: 200% 100%;
-   background-position: center;
-   background-repeat: no-repeat;
-   cursor: pointer;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0px;
+  top: 3px;
+  background-image: url('Vectors/delete_light.svg');
+  background-size: 200% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 .add_icon{
-   z-index: -1;
-   right: -10px;
-   background-image: url('Vectors/add_light.svg');
-   background-size: 200% 100%;
-   background-position: center;
-   background-repeat: no-repeat;
-   cursor: unset;
+  z-index: -1;
+  right: -10px;
+  background-image: url('Vectors/add_light.svg');
+  background-size: 200% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: unset;
 }
 .edit_icon {
-   right: 35px;
-   background-image: url('Vectors/edit_light.svg');
-   background-size: 200% 100%;
-   background-position: center;
-   background-repeat: no-repeat;
-   cursor: pointer;
+  right: 35px;
+  background-image: url('Vectors/edit_light.svg');
+  background-size: 200% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 .editTxtBox {
-   max-width: 75%;
-   position: absolute;
-   top: 0px;
-   max-height: 40%;
-   left: 10px;
+  max-width: 75%;
+  position: absolute;
+  top: 0px;
+  max-height: 40%;
+  left: 10px;
 }
 .edit_icon:hover,
 .delete_icon:hover {
-   background-size: 250% 120%;
-   border-radius: 50%;
-   border: 1px dashed #41b9aa;
+  background-size: 250% 120%;
+  border-radius: 50%;
+  border: 1px dashed #41b9aa;
 }
 .logoBox .add_icon {
-   all: unset;
-   position: absolute;
-   left: 5px;
-   bottom: 15px;
-   width: 40px;
-   height: 40px;
-   background-image: url('Vectors/add_light.svg');
-   background-size: 200% 100%;
-   background-position: center;
-   background-repeat: no-repeat;
-   cursor: pointer;
+  all: unset;
+  position: absolute;
+  left: 5px;
+  bottom: 15px;
+  width: 40px;
+  height: 40px;
+  background-image: url('Vectors/add_light.svg');
+  background-size: 200% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 .Btns {
-   display: block;
-   width: 15px;
-   height: 15px;
-   float: right;
-   margin: 5px;
-   cursor: pointer;
-   position: absolute;
-   bottom: 0px;
-   right: 0px;
-   border-radius: 50px;
+  display: block;
+  width: 15px;
+  height: 15px;
+  float: right;
+  margin: 5px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  border-radius: 50px;
 }
 .Btns:hover {
-   background-color: rgba(100,100,100,.1);
+  background-color: rgba(100,100,100,.1);
 }
 .exitBtn:hover {
-   background-color: rgba(226, 0, 0, 1);
+  background-color: rgba(226, 0, 0, 1);
 }
 .exitBtn {
-   background-color: rgba(226, 0, 0, 0.75);
+  background-color: rgba(226, 0, 0, 0.75);
 }
 .dragBtn {
-   background-image: url('Vectors/drag1.svg');
-   background-size: contain;
-   background-position: center;
-   background-repeat: no-repeat;
-   width: 20px;
-   height: 20px;
-   right: unset;
-   left: 0px;
-   bottom: 0px;
-   -webkit-app-region: drag;
+  background-image: url('Vectors/drag1.svg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  right: unset;
+  left: 0px;
+  bottom: 0px;
+  -webkit-app-region: drag;
 }
 .menuTogglerNav,
 .menuTogglerBody {
-   transform: rotate(-45deg);
-   display: block;
-   width: 0px;
-   height: 0px;
-   border-style: solid;
-   border-color: transparent #41b9aa #41b9aa transparent;
-   border-width: 15px 15px 15px 15px;
-   position: absolute;
-   left: -15px;
-   top: 20px;
-   z-index: 100;
-   cursor: pointer;
-   box-shadow: 1px 1px 5px 0px rgba(0,0,0,.8);
+  transform: rotate(-45deg);
+  display: block;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-color: transparent #41b9aa #41b9aa transparent;
+  border-width: 15px 15px 15px 15px;
+  position: absolute;
+  left: -15px;
+  top: 20px;
+  z-index: 100;
+  cursor: pointer;
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,.8);
 }
 .menuTogglerNav {
-   transform: rotate(135deg);
-   position: absolute;
-   left: calc(100vw - 15px);
+  transform: rotate(135deg);
+  position: absolute;
+  left: calc(100vw - 15px);
 }
 .inactive {
-   pointer-events: none;
+  pointer-events: none;
 }
 .popup {
-   position: fixed;
-   /*height: 150px;*/
-   width: 250px;
-   top: 520vh;
-   left: calc(50vw - 145px);
-   background: #333;
-   box-shadow: 0px 0px 10px 1px rgba(0,0,0,.7);
-   padding: 20px;
-   padding-bottom: 0px;
-   z-index: 20;
-   transition: all .3s;
+  position: fixed;
+  /*height: 150px;*/
+  width: 250px;
+  top: 520vh;
+  left: calc(50vw - 145px);
+  background: #333;
+  box-shadow: 0px 0px 10px 1px rgba(0,0,0,.7);
+  padding: 20px;
+  padding-bottom: 0px;
+  z-index: 20;
+  transition: all .3s;
 }
 .popupOpen {
-   top: calc(50vh - 110px);
+  top: calc(50vh - 110px);
 }
 .popup input {
-   background: transparent;
-   width: 100%;
-   padding: 10px 0px;
-   padding-left: 10px;
-   color: #ffffff;
-   font-size: 15px;
-   border: 0px;
-   border-bottom: 2px solid rgba(255,255,255,.2);
-   transition: border-color .3s;
-   outline: unset;
+  background: transparent;
+  width: 100%;
+  padding: 10px 0px;
+  padding-left: 10px;
+  color: #ffffff;
+  font-size: 15px;
+  border: 0px;
+  border-bottom: 2px solid rgba(255,255,255,.2);
+  transition: border-color .3s;
+  outline: unset;
 }
 .popup input:focus {
-   border-bottom: 2px solid #41b9aa;
-   box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
+  border-bottom: 2px solid #41b9aa;
+  box-shadow: 0px 3px 4px -1px rgba(0,0,0,.5);
 }
 .popup label {
-   display: inline-block;
-   padding: 10px;
-   max-width: 30%;
+  display: inline-block;
+  padding: 10px;
+  max-width: 30%;
 }
 .popupBtns {
-   margin: 20px auto;
-   padding: 10px;
-   text-align: center;
+  margin: 20px auto;
+  padding: 10px;
+  text-align: center;
 }
 .popupBtn {
-   display: inline-block;
-   padding: 10px;
-   cursor: pointer;
-   width: 70px;
-   text-align: center;
-   transition: all .1s;
-   box-shadow: 1px 2px 4px -2px rgba(0,0,0,.8);
-   background: rgba(80,80,80,.5);
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  width: 70px;
+  text-align: center;
+  transition: all .1s;
+  box-shadow: 1px 2px 4px -2px rgba(0,0,0,.8);
+  background: rgba(80,80,80,.5);
 }
 .popupBtn:hover {
-   box-shadow: 0px 2px 10px -1px rgba(0,0,0,.5);
-   background-color: rgba(255,255,255,.1);
+  box-shadow: 0px 2px 10px -1px rgba(0,0,0,.5);
+  background-color: rgba(255,255,255,.1);
 }
 .active {
-   background: #404040;
+  background: #404040;
 }
 .categoryContent {
-   display: block;
-   max-width: 80%;
+  display: block;
+  max-width: 80%;
 }
 .addCategoryCaption {
-   padding: 10px;
-   text-align: center;
-   font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 .taskContent {
-    max-width: calc(100% - 70px);
-    display: inline-block;
-    word-wrap: break-word;
-    position: relative;
-    top: 2px;
+  max-width: calc(100% - 70px);
+  display: inline-block;
+  word-wrap: break-word;
+  position: relative;
+  top: 2px;
 }
 
 
 
- /* The switch - the box around the slider */
+/* The switch - the box around the slider */
 .switch {
-    position: relative;
-    display: block;
-    width: 30px;
-    height: 15px;
-    display: inline-block;
-    margin: 0px 20px;
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 15px;
+  display: inline-block;
+  margin: 0px 20px;
 }
 /* Hide default HTML checkbox */
 .switch input {display:none;}
@@ -513,13 +523,13 @@ label {
 }
 /*For Transparent*/
 .activeTransparent {
-   background: rgba(0,0,0,.25);
+  background: rgba(0,0,0,.25);
 }
 .popupTransparent {
-   background: rgba(0,0,0,.3);
+  background: rgba(0,0,0,.3);
 }
 .popupBtnTransparent {
-   background: rgba(80,80,80,.2);
+  background: rgba(80,80,80,.2);
 }
 .navTransparent {
   background: unset;  
@@ -537,35 +547,35 @@ label {
 }
 
 .entryContainer .editable {
-    max-height: 55px;
-    width: calc(100% - 10px);
-    text-align: left;
-    vertical-align: middle;
-    line-height: 25px;
-    display: block;
-    white-space: pre-line;
-    overflow: hidden;
-    position: relative;
+  max-height: 55px;
+  width: calc(100% - 10px);
+  text-align: left;
+  /* vertical-align: middle; */
+  line-height: 25px;
+  display: block;
+  white-space: pre-line;
+  overflow: hidden;
+  position: relative;
 }
 
 .tabs {
-    /*border: 1px solid red;*/
-    height: 34px;
-    text-align: right;
-    position: absolute;
-    width: 70%;
-    bottom: 0px;
-    left: 15%;
-    display: inline-block;
-    text-align: center;
+  /*border: 1px solid red;*/
+  height: 34px;
+  text-align: right;
+  position: absolute;
+  width: 70%;
+  bottom: 0px;
+  left: 15%;
+  display: inline-block;
+  text-align: center;
 }
 
 .tab {
-    display: inline-block;
-    width: 30%;
-    line-height: 38px;
-    text-align: center;
-    cursor: pointer;
+  display: inline-block;
+  width: 30%;
+  line-height: 38px;
+  text-align: center;
+  cursor: pointer;
 }
 .tab:hover {
   background: rgba(0,0,0,.3);
@@ -574,36 +584,38 @@ label {
 
 /*FOR THE NOTES*/
 .notesBody .entryContainer {
-   display: block;
-   padding: 10px 20px;
-   text-align: center;
-   height: 40px;
-   margin-bottom: 10px;
-   box-shadow: unset;
+  display: block;
+  padding: 10px 20px;
+  text-align: center;
+  height: 40px;
+  margin-bottom: 10px;
+  box-shadow: unset;
 }
 .notesBody .add_icon {
   cursor: pointer;
   z-index: unset;
 }
 .notes {
-   margin: 0px;
-   display: block;
-   padding: 10px 5px 10px 0px;
-   text-align: center;
-   overflow: hidden;
-   overflow-y: auto;
-   height: calc(100vh - 100px);
+  margin: 0px;
+  display: block;
+  padding: 10px 5px 10px 0px;
+  text-align: center;
+  overflow: hidden;
+  overflow-y: auto;
+  height: calc(100vh - 100px);
 }
 .notes::-webkit-scrollbar {
-   width: 2px;
+  width: 1px;
+  height: 1px;
 }
 .notes::-webkit-scrollbar-track {
-   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-   background-color: transparent;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: transparent;
 }
 .notes::-webkit-scrollbar-thumb {
-   background-color: #41b9aa;
-   outline: 1px solid #41b9aa;
+  background-color: #41b9aa;
+  outline: 1px solid #41b9aa;
 }
 .noteViewer {
   display: block;
@@ -611,49 +623,49 @@ label {
   height: 98vh;
 }
 .menuTogglerNoteViewer {
-    transform: rotate(-45deg);
-    display: block;
-    width: 0px;
-    height: 0px;
-    border-style: solid;
-    border-color: transparent #41b9aa #41b9aa transparent;
-    border-width: 10px 10px 15px 15px;
-    position: absolute;
-    left: -15px;
-    top: 5px;
-    z-index: 100;
-    cursor: pointer;
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,.8);
+  transform: rotate(-45deg);
+  display: block;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-color: transparent #41b9aa #41b9aa transparent;
+  border-width: 10px 10px 15px 15px;
+  position: absolute;
+  left: -15px;
+  top: 5px;
+  z-index: 100;
+  cursor: pointer;
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,.8);
 }
 .noteContent {
-    display: block;
-    width: auto;
-    /*margin: 30px auto;*/
-    max-width: 700px;
-    outline: none;
-    /*padding: 0px 15px;*/
-    overflow-y: auto;
-    /*height: 90vh;*/
-    position: relative;
+  display: block;
+  width: auto;
+  /*margin: 30px auto;*/
+  max-width: 700px;
+  outline: none;
+  /*padding: 0px 15px;*/
+  overflow-y: auto;
+  /*height: 90vh;*/
+  position: relative;
 
-    margin: 10px auto;
-    height: calc(100vh - 20px);
-    padding: 0px 10px;
+  margin: 10px auto;
+  height: calc(100vh - 20px);
+  padding: 0px 10px;
 }
-.noteContent:scroll {}
+/* .noteContent:scroll {} */
 .noteContent::-webkit-scrollbar {
-   width: 2px;
-   height: 2px;
+  width: 1px;
+  height: 1px;
 }
 .noteContent::-webkit-scrollbar-track {
-   /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
-   background-color: transparent;
+  /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+  background-color: transparent;
 }
 .noteContent::-webkit-scrollbar-thumb {
-   /*background-color: #41b9aa;*/
-   /*outline: 1px solid #41b9aa;*/
-   background-color: rgba(99, 99, 99, 0.28);
-   outline: 1px solid rgba(99, 99, 99, 0.28);
+  /*background-color: #41b9aa;*/
+  /*outline: 1px solid #41b9aa;*/
+  background-color: rgba(99, 99, 99, 0.28);
+  outline: 1px solid rgba(99, 99, 99, 0.28);
 }
 
 .note {
@@ -682,8 +694,8 @@ label {
 
 
 .tasksBody {        /*TO BE DELETED*/
-  /*display: none;*/
-   transition: transform .25s;
+  /* display: none; */
+  transition: transform .25s;
 }
 .notesBody {        /*TO BE DELETED*/
   display: none;
@@ -791,25 +803,26 @@ table:hover .addColIcon {
 }
 
 .codeBlock {
-    display: block;
-    padding: 20px;
-    width: calc(100% - 40px);
-    border-left: 3px solid #41b9aa;
-    box-shadow: 0px 0px 20px -5px black;
-    overflow: auto;
+  display: block;
+  padding: 20px;
+  width: calc(100% - 40px);
+  border-left: 3px solid #41b9aa;
+  box-shadow: 0px 0px 20px -5px black;
+  overflow: auto;
 }
 
 .codeBlock::-webkit-scrollbar {
-   width: 2px;
-   height: 2px;
+  width: 1px;
+  height: 1px;
 }
 .codeBlock::-webkit-scrollbar-track {
-   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-   background-color: transparent;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: transparent;
 }
 .codeBlock::-webkit-scrollbar-thumb {
-   background-color: #41b9aa;
-   outline: 1px solid #41b9aa;
+  background-color: #41b9aa;
+  outline: 1px solid #41b9aa;
 }
 
 
@@ -836,20 +849,53 @@ hr {
 
 /*FOR PRINTING VIEW*/
 @media print {
-  html,
   body {
-    background: #2E2E2E !important;
+    -webkit-print-color-adjust: exact !important;
+    background: #2E2E2E;
+  }
+  .menuTogglerBody {
+    display: none;
+  }
+  .entryContainer {
+    display: none;
+  }
+  .tasksBody {
+    display: block !important;
+    min-height: 100vh;
+    background: #ffffff;
+  }
+  .tasks {
+    width: 100vw;
+    font-size: 2em;
+    height: unset;
+    padding: 0px;
+    margin: 0px;
+
+    color: #555555;
+    mix-blend-mode: multiply;
+    padding: 50px 0px;
+    font-size: 2em;
   }
   .noteViewer {
     height: unset;
+    background: white;
+    min-height: 100vh;
   }
   .noteContent {
     height: unset;
+    color: #555555;
+    padding: 50px 20px;
+    mix-blend-mode: multiply;
+    font-size: 1.75em;
+    margin: 0px;
+  }
+  span {
+    mix-blend-mode: difference;
   }
   .body {
     position: unset;
   }
   .popup {
-    display: 
+    display: none;
   }
 }

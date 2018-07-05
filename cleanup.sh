@@ -1,1 +1,1 @@
-rm -rf ~/.TMgr
+rm -rf ~/.Tudu
