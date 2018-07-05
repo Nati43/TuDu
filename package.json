@@ -1,7 +1,7 @@
 {
   "name": "TuDu",
   "productName": "TuDu",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Task management and sticky note app",
   "main": "src/main.js",
   "scripts": {
