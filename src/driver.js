@@ -525,6 +525,12 @@ function addHandler(event, addField){
             event.preventDefault();
             var name = selectedCategoryName;
             ipc.send('print-as-pdf', name);
+      }else if(event.shiftKey && !event.ctrlKey && event.code == "KeyS") { // Subscript
+            event.preventDefault();
+            document.execCommand("subscript", false, str);
+      }else if(event.shiftKey && event.ctrlKey && event.code == "KeyS") { // Superscript
+            event.preventDefault();
+            document.execCommand("superscript", false, str);
       }
 }
 
@@ -814,6 +820,12 @@ function editHandler(obj){
             event.preventDefault();
             var name = selectedCategoryName;
             ipc.send('print-as-pdf', name);
+      }else if(event.shiftKey && !event.ctrlKey && event.code == "KeyS") { // Subscript
+            event.preventDefault();
+            document.execCommand("subscript", false, str);
+      }else if(event.shiftKey && event.ctrlKey && event.code == "KeyS") { // Superscript
+            event.preventDefault();
+            document.execCommand("superscript", false, str);
       }
    };
 

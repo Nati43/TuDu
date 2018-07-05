@@ -30,6 +30,11 @@ Note                                                           |  Transparent No
   - **Underline**             :  ctrl + u
   - **Increase font size**    :  ctrl + .
   - **Decrease font size**    :  ctrl + ,
+  - **Export as PDF**    :  ctrl  + shift +  E
+  - **Highlight**             :  ctrl + shfit  +  H
+  - **TextColor Highlight**   : ctrl + H 
+  - **Subscript**             : shift + S
+  - **Superscript**           : ctrl + shift + S
   
 - for NOTE
 
@@ -39,7 +44,6 @@ Note                                                           |  Transparent No
   - **Blockquote**            :  ctrl + shfit  +  [
   - **Indent**                :  ctrl + Tab
   - **Outdent**               :  ctrl + shift  +  Tab
-  - **Highlight**             :  ctrl + shfit  +  H
   - **Justify**               :  ctrl + shfit  +  J
   - **Left Align**            :  ctrl + shfit  +  L
   - **Center Align**          :  ctrl + shfit  +  C
@@ -49,5 +53,4 @@ Note                                                           |  Transparent No
   - **Convert to lowercase**  :  shfit  +  L
   - **Save NOTE**             :  ctrl  +  S
   - **Save and Close note**   :  alt  +  ArrowLeft
-  - **Export Note as PDF**    :  ctrl  + shift +  E
 
