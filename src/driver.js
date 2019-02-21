@@ -423,26 +423,40 @@ function addFieldController(event, addField) {
          addField.style.top = '0px';
          moved = false;
       }
+   }else if(event.ctrlKey && event.shiftKey && event.code == 'KeyH'){ // HIGHLIGHT SELECTION
+      event.preventDefault();
+      var ht = document.queryCommandValue("backColor");
+      if(ht ==  "rgba(255, 0, 0, 0.7)")
+            document.execCommand("backColor", false, "unset");
+      else
+            document.execCommand("backColor", false, "rgba(255, 0, 0, 0.7)");
+   }else if(!event.shiftKey && event.ctrlKey && event.code == 'KeyH') { // HIGHLIGHT ( TEXT COLOR )
+      event.preventDefault();
+      var ht = document.queryCommandValue("foreColor");
+      if(ht ==  "rgb(255, 255, 255)")
+            document.execCommand("foreColor", false, "#ff4242");
+      else
+            document.execCommand("foreColor", false, "white");
    }
 }
 
 //Fired when a new task is added to a category
 function addHandler(event, addField){
 
-   if(!moved && addField.scrollHeight > 35) {
-      addField.style.top = '-10px';
-      moved = true;
-   } else if(moved && addField.scrollHeight <= 35) {
-      addField.style.top = '0px';
-      moved = false;
-   }
+      if(!moved && addField.scrollHeight > 35) {
+         addField.style.top = '-10px';
+         moved = true;
+      } else if(moved && addField.scrollHeight <= 35) {
+         addField.style.top = '0px';
+         moved = false;
+      }
 
       if(event.key == "Enter") {
             
             event.preventDefault();
             if(addField.innerHTML != "" && addField.innerHTML != "Add Task") {
 
-                  console.log("Trying to add to category "+selectedCategory+" task "+addField.value+" ?");
+                  // console.log("Trying to add to category "+selectedCategory+" task "+addField.value+" ?");
 
                   successFlag = false;
 
@@ -450,7 +464,7 @@ function addHandler(event, addField){
                   var task = addField.innerHTML;
                   // addField.value = "";
                   addField.innerHTML = "";
-                  document.querySelector('.entryContainer .add_icon').style.opacity = '1';
+                  // document.querySelector('.entryContainer .add_icon').style.opacity = '1';
                   var state = 0;
                   var category = selectedCategory;
                   db.serialize(function(){
@@ -475,60 +489,54 @@ function addHandler(event, addField){
                         function alterOrderList(newID){
                               var list = document.getElementById('tasks');
                               var order = [];
-                              [].forEach.call(list.children, function(element) {
-                              var taskID = element.getAttribute('value');
-                              if(order.indexOf(taskID) == -1)
-                                    order.push(taskID);
-                              });
-                              order.push(newID);
-                              var str = JSON.stringify(order);
-                              // console.log("ORDER AFTER ADDING"+str);
-                              // console.log(selectedCategory);
-                              db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
-                              // console.log("ORDER LIST UPDATED");
-                              successFlag = true;
-                              if(moved){
-                                    addField.style.top = '0px';
-                                    moved = false;
+                              
+                              var flag = true;
+                              if (document.getElementById("headtail").checked){ // ADD TO HEAD
+                                 order.push(newID);
+                                 flag = false;
                               }
-                              loadTasksToCategory();
-                              scrollToBottom();
+
+                              [].forEach.call(list.children, function(element) {
+                                 var taskID = element.getAttribute('value');
+                                 if(order.indexOf(taskID) == -1)
+                                       order.push(taskID);
+                              });
+
+                              if(flag) // ADD TO TAIL
+                                 order.push(newID);
+
+                              var str = JSON.stringify(order);
+                              db.run(" UPDATE LAST_ORDER SET _order=? WHERE category=? ",str, selectedCategory, function randomName(err){
+                                 successFlag = true;
+                                 if(moved){
+                                       addField.style.top = '0px';
+                                       moved = false;
+                                 }
+                                 loadTasksToCategory();
+                                 if(flag)
+                                    scrollToBottom();
                               });
                               
                         }
 
                   });
             }
-      }else if(event.ctrlKey == true && event.code == 'Period') { // INCREASE FONT SIZE
+      }else if(event.ctrlKey && event.code == 'Period') { // INCREASE FONT SIZE
             var fontSize = document.queryCommandValue("FontSize");
             fontSize++;
             document.execCommand("fontSize", false, fontSize);
-      }else if(event.ctrlKey == true && event.code == "Comma"){ // DECREASE FONT SIZE
+      }else if(event.ctrlKey && event.code == "Comma"){ // DECREASE FONT SIZE
             var fontSize = document.queryCommandValue("FontSize");
             fontSize--;
             document.execCommand("fontSize", false, fontSize);
-      }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyH'){ // HIGHLIGHT SELECTION
-            event.preventDefault();
-            var ht = document.queryCommandValue("backColor");
-            if(ht ==  "rgba(255, 0, 0, 0.7)")
-                  document.execCommand("backColor", false, "unset");
-            else
-                  document.execCommand("backColor", false, "rgba(255, 0, 0, 0.7)");
-      }else if(!event.shiftKey && event.ctrlKey && event.code == 'KeyH') { // HIGHLIGHT ( TEXT COLOR )
-            event.preventDefault();
-            var ht = document.queryCommandValue("foreColor");
-            if(ht ==  "rgb(255, 255, 255)")
-                  document.execCommand("foreColor", false, "#ff4242");
-            else
-                  document.execCommand("foreColor", false, "white");
-      }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyE'){ // Export as PDF
+      }else if(event.ctrlKey && event.shiftKey && event.code == 'KeyE'){ // Export as PDF
             event.preventDefault();
             var name = selectedCategoryName;
             ipc.send('print-as-pdf', name);
-      }else if(event.shiftKey && !event.ctrlKey && event.code == "KeyS") { // Subscript
+      }else if(!event.ctrlKey && event.shiftKey && event.code == "KeyS") { // Subscript
             event.preventDefault();
             document.execCommand("subscript", false);
-      }else if(event.shiftKey && event.ctrlKey && event.code == "KeyS") { // Superscript
+      }else if(event.ctrlKey && event.shiftKey && event.code == "KeyS") { // Superscript
             event.preventDefault();
             document.execCommand("superscript", false);
       }
@@ -901,13 +909,12 @@ function deleteHandler(obj){
 }
 
 //Fix for Add Icon overlap
-document.getElementById('addField').oninput = function(){
-
-   if(this.textContent.length > 0)
-      document.querySelector('.entryContainer .add_icon').style.opacity = '0';
-   else
-      document.querySelector('.entryContainer .add_icon').style.opacity = '1';
-}
+// document.getElementById('addField').oninput = function(){
+   // if(this.textContent.length > 0)
+      // document.querySelector('.entryContainer .add_icon').style.opacity = '0';
+   // else
+      // document.querySelector('.entryContainer .add_icon').style.opacity = '1';
+// }
 
 //UI Changer
 function themeChanger(obj) {
@@ -1263,7 +1270,7 @@ function controller(obj, event) {
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyJ'){ // JUSTIFY SELECTED SECTION
       event.preventDefault();
       event.stopPropagation();
-      document.execCommand("justifyFull", false);   
+      document.execCommand("justifyFull", false);
    }else if(event.shiftKey && event.ctrlKey && event.code == 'KeyB'){ // INSERT BULLETS
       event.preventDefault();
       document.execCommand("insertUnorderedList", false);

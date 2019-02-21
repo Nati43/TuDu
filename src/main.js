@@ -91,6 +91,8 @@ fs.mkdir(app.getPath('home') + '/\.TuDu',function() {
         mainWindow.focus(); 
       });
 
+      // mainWindow.webContents.openDevTools();
+
       // Load The Index Page
       mainWindow.loadURL(url.format({
         pathname: path.join(__dirname,'index.html'),
@@ -148,4 +150,3 @@ fs.mkdir(app.getPath('home') + '/\.TuDu',function() {
   });
 
 });
-

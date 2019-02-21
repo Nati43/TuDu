@@ -496,6 +496,13 @@ label {
   border-radius: 50%;
 }
 
+.headtail {
+  position: absolute;
+  right: -30px;
+  top: 10px;
+}
+
+
 .Indicator {
   padding: 30px;
   font-size: 30px;
@@ -548,7 +555,8 @@ label {
 
 .entryContainer .editable {
   max-height: 55px;
-  width: calc(100% - 10px);
+  /* width: calc(100% - 10px); */
+  width: calc(100% - 50px);
   text-align: left;
   /* vertical-align: middle; */
   line-height: 25px;
@@ -875,6 +883,9 @@ hr {
     mix-blend-mode: multiply;
     padding: 50px 0px;
     font-size: 2em;
+  }
+  .tasksBody {
+    display: none !important;
   }
   .noteViewer {
     height: unset;

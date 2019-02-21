@@ -61,7 +61,12 @@
             <div class="entry">
               <!-- <input type="text" class="txtBox" id="addField" onkeypress="addHandler(event, this)"/> -->
               <span onkeypress="addHandler(event, this)" placeholder="Add Task" onkeyup="addFieldController(event, this);" class="txtBox editable" contenteditable="true" id="addField"></span>
-              <div class="add_icon"></div>
+              <!-- <div class="add_icon"></div> -->
+              <!-- Rounded switch -->
+              <label class="switch headtail">
+                <input type="checkbox" name="headtail" id="headtail" checked>
+                <span class="slider round"></span>
+              </label>
             </div>
           </div>
           
@@ -173,4 +178,3 @@
     </script>
   </body>
 </html>
-
